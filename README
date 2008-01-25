@@ -1,0 +1,116 @@
+The big pimpin titties, with perky nipples
+
+= merblogger # merb + logger merbl ogger
+
+merblogger.com
+
+Ruby community blog, anybody doing ruby gets a blog there ;)
+I could dig merblog. You know.. merblog will have to be a blog we start too.. about merb and the merblog project :-P by taking that name, we take a lot of responsibility. That's a sweet idea :) =D O man! I <3 it. Alright +1 for merblogger.com
+
+Let's paste the below items into the 'stories/overview_spec' for later
+And we'll try to write the implementation specs like we usually do now ?
+ 
+ 
+
+
+= Unique comment 'way'
+Comments will be more like a 'forum' than traditional comments.
+Comments will not be displayed on post pages. People can discuss posts by going to the 'comment' forum (comments) associated with the post.
+I'm suggesting that comments occur only in forums form
+Author of a post can 'select' comments from the forum that will appear below the post. That way they can ensure that high quality comments occur.
+Yes forum ish thing
+
+You're suggesting a forum add-on component? Right so we need a forum. OK, makes sense :) Also need that for my starcraft site hehehe. merb_forum. Man, if we finish this, EY could sell this shit for consutling like CRAZY. This is like CMS on steriods. Well this is certainly a potential wordpress killah. psht Mephisto is a crying baby compared to this. MOstly because we're doing it =D. Dude I need to do this ANYWAY so we're on the same page hehe. This will be a perfect demo app for merbivores too. hehehe, his name is on Anvil ;) No commits, but I'm hoping one day.. ;). That would be DOPE. BTW we need to figure out what we're calling this. big pimpin blog? hahaha.. that might not sell too well ;) I like word.. problem is it is taken haha.
+
+
+An Admin who chooses to login
+* can manage the aggregator settings
+* can adjust global blog application settings, including domains
+* can manage blogs, including domains
+* can add users to blogs
+* gets all rights on all blogs and all areas of the application
+* can unpublish aggregated stories from aggregated blog
+
+POST /sessions
+A user who chooses to login 
+* will be authenticated using http auth! (the way it was meant to be)
+* will post to /sessions, success reloads page with priveliged items.
+
+DELETE /sessions
+A user who chooses to logout
+* Will destroy the session and reload the ENTIRE view (eg. privileged items disappear)
+
+/blogs/:id/edit
+A user who has a blog and wants to edit their settings
+* can specify whether or not use capatcha's for comments
+* can specify whether or they want to monitor comments
+* can set theming css, possibly choose from a few layouts
+* can upload assets using the merb_assets plugin
+* can activate/install/uninstall modules that can be plugged into their themes. 
+* can search all aggregate posts
+
+<URL> <-> aggregator controller ?
+A visitor who visits the aggregator blog
+* sees a list of the blog posts for the aggregator blog, in a summary form. 
+* can click to view the full posting inline
+* click a link to take them to view the entire post within the posters blog.
+* can get an rss 2 feed of the aggregated posts
+
+/blog/:id # equiv to /blog/:id/posts
+A visitor who visits an individual user's blog 
+* can see a list of the blog posts for each individual blog
+* can see an individual blog post for each individual blog
+* can comment on and individual blog post, provided they supply name, email, website (optional) and body (some sort of antispam measures later on)
+* can get an rss feed of each the blog posts
+* can search the current blog's posts 
+
+
+Infrastructure / Architecture concepts:
+* will go to the url and the application will load entirely all html + js for the given blog.
+* Initial page load is only large load, from then on there are no full server hits.
+* All interaction will be between controller actions and jQuery via JSON.
+* This will ensure that the users UI experience will be very fast and seemless.
+* We will keep controllers lightweight and use declaritive "bitch do my bidding" methods on model objects to drive actual work. All business logic will go in the models.
+* We will use Sequel's memcachd feature
+* We will hookup sphinx for awesome searching capabilities for the blog. 
+* Both posts and blogs will be identifiable by a permalink based on title
+
+$.getJSON("url", function(json) { // json is a regular JS object, so use it! })
+
+Merb PLUGINS:
+
+merb_assets plugin
+* provides an API to manage assets
+* can specify filesystem or S3 in config. 
+
+merb_sphinx plugin
+* SIMPLE config api
+
+merb_authentication_station =D EY reference ;)
+
+merb_forum
+
+I'm thinking that once this is running in Merb, we can write some Anvil app that interfaces with a server version of it
+So people can blog locally and "push" to server when online.
+
+# We might be able to turn these into specs :)
+
+# Open Questions:
+#  * Do we want to start mapping out comments right away? or wait until we figure out forums?
+
+#Merb Plugins
+  # merb_activation - only assumption is that User model has 'active' field.
+  # maybe also store an activation string... or encode /decode userid / email / something 
+
+# Sequel Plugins:
+# * versioned
+# * authenticated
+# * formatted
+# * ratable
+# * permalinkable
+# * attachable
+# * configurable 
+    # key-value pairs, external table, auto create join table
+
+
+

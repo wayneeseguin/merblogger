@@ -1,0 +1,6 @@
+%h1 Login
+
+- form_tag(:action => url(:session)) do
+  = text_field :name => :username, :value => params[:username], :label => "User"
+  = password_field :name => :password, :value => params[:password], :label => "Password"
+  = submit_button "Authenticate"

@@ -1,0 +1,6 @@
+= text_control :title, :label => "Title"
+= text_area_control :body, :label => "Body"
+/ TODO: add publish date
+
+- unless @page.new_record?
+  = hidden_control :id

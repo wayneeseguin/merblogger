@@ -1,0 +1,16 @@
+---
+:development: &defaults
+  :adapter: mysql
+  :database: blog_development
+  :username: root
+  :password: 
+  :host: localhost
+#  :socket: /tmp/mysql.sock
+
+:test:
+  <<: *defaults
+  :database: blog_test
+
+:production:
+  <<: *defaults
+  :database: blog_production

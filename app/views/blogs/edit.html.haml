@@ -1,0 +1,4 @@
+%h1#edit Edit Blog
+- form_for @blog, :action => url(:blog, :id => @blog.id) do
+  = partial "form"
+  = submit_button "Edit"

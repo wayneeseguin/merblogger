@@ -1,0 +1,4 @@
+%h1#edit Edit my Comment
+- form_for @comment, :action => url(:comment, :id => @comment.id) do
+  = partial "form"
+  = submit_button "Edit"

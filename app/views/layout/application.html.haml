@@ -1,0 +1,10 @@
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en-us", :lang => "en-us"}
+  %head
+    %title== Merki :: #{ catch_content(:page_title) }
+    %meta{"http-equiv" => "content-type", :content => "text/html; charset=utf-8"}
+    = css_include_tag("site.css", :media => "screen")
+
+  %body
+    #sidebar= partial("layout/sidebar")
+    #content= catch_content :layout
