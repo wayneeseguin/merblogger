@@ -20,6 +20,8 @@
 #     ^ will be simply a string of id's I believe. Just store what blog id's were selected.
 #   rules for articles - based on whatever criteria we can come up with to allow them to specify / select from 
 # TBD (but I'm thinking we'll create rule objects and combine them somehow.)
+require "sequel"
+require "sequel_model"
 class Aggregator < Sequel::Model(:aggregators)
   set_schema do
     primary_key :id

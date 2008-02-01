@@ -31,7 +31,7 @@ Merb::Router.prepare do |router|
   # This is fine for most cases.  If you're heavily using resource-based
   # routes, you may want to comment/remove this line to prevent
   # clients from calling your create or destroy actions with a GET
-  r.default_routes
+  #router.default_routes
   
   router.match('/').to(:controller => "aggregator", :action =>'index')
 end
