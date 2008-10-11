@@ -78,11 +78,11 @@ class Article
   States = %w(draft preview published archived deleted)
   
   is :state_machine, :initial => :new, :column => :state do
-    state :draft,     :enter => Proc.new {|entity| entity.change_state(:draft)}
-    state :preview,   :enter => Proc.new {|entity| entity.change_state(:preview)}
-    state :published, :enter => Proc.new {|entity| entity.change_state(:published)}
-    state :archived,  :enter => Proc.new {|entity| entity.change_state(:archived)}
-    state :deleted,   :enter => Proc.new {|entity| entity.change_state(:deleted)}
+    state :draft,     :enter => Proc.new { |entity| entity.change_state(:draft) }
+    state :preview,   :enter => Proc.new { |entity| entity.change_state(:preview) }
+    state :published, :enter => Proc.new { |entity| entity.change_state(:published) }
+    state :archived,  :enter => Proc.new { |entity| entity.change_state(:archived) }
+    state :deleted,   :enter => Proc.new { |entity| entity.change_state(:deleted) }
   
     # This should be triggered automatically when someone first saves an article.
     #event :start do
@@ -117,32 +117,30 @@ class Article
   end
   
   # When we change state we run these call backs
-  # We could probably inject a bit of audit logging here so we keep track of date and times of state changes
   def change_state(state)
+    # TODO: audit logging of state changes.
     self.send("callback_#{state.to_s}")
-    save!
+    self.update_attributes(:state => state) # This seems like a hack :(
+    self.reload
   end
   
   # Callbacks
   
   def callback_draft
-    draft!
+    Merb.logger.info "draft"
   end
   
   def callback_preview
-    preview!
+    Merb.logger.info "preview"
   end
   
   def callback_published
-    published!
   end
   
   def callback_archived
-    archived!
   end
   
   def callback_deleted
-    deleted!
   end
 
 end
