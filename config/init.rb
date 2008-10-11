@@ -7,6 +7,7 @@ use_test :rspec
 use_template_engine :erb
 
 Merb::Config.use do |config|
+  config[:name] = "merblogger"
   config[:use_mutex] = false
   config[:session_store] = "cookie"  # can also be "memory", "memcache", "container", "datamapper
   config[:session_secret_key]  = "1205346b9baa87cf8e49f78124c8d17a31ac0971"  # required for cookie session store

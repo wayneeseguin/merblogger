@@ -7,24 +7,30 @@
 
 migration(1, :initial) do
   up do
+    
     create_table :articles do
       column :id, Integer, :serial => true
 
+      column :version,      Integer
       column :title,        String, :length => 255
       column :sub_title,    String, :length => 255
       column :slug,         String, :length => 255 # Will store an SEO friendly slug
-      column :state,        String, :length => 16  # we'll use state_machine on this
+      column :state,        String, :length => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
       column :publised_at,  DateTime  # Allow them to set publish date
+      column :markup,       String, :length => 32
+
+      property :raw,         Text
+      property :html,        Text
 
       column :created_at,   DateTime
       column :updated_at,   DateTime
       column :deleted_at,   DateTime
-      column :published_by, Integer
-      column :created_by,   Integer
-      column :updated_by,   Integer
-      column :deleted_by,   Integer
+      column :published_by_id, Integer
+      column :created_by_id,   Integer
+      column :updated_by_id,   Integer
+      column :deleted_by_id,   Integer
     end
 
     create_table :blogs do
@@ -36,7 +42,14 @@ migration(1, :initial) do
       column :created_at,  DateTime
       column :updated_at,  DateTime
     end
-    create_table :authors
+
+    create_table :blog_articles
+      property :blog_id, Integer, :key => true
+      property :article_id,  Integer, :key => true
+      property :created_at, Time
+    end
+
+    create_table :article_authors
       property :article_id, Integer, :key => true
       property :author_id,  Integer, :key => true
       property :created_at, Time
@@ -68,7 +81,7 @@ migration(1, :initial) do
   end
 
   down do
-    [:articles,:authors,:comments,:admin_preferences,:user_preferences,:blogs].each do |table_name|
+    [:articles,:article_authors,:comments,:admin_preferences,:user_preferences,:blogs, :blog_articles].each do |table_name|
       begin
         drop_table table_name
       rescue Exception => e

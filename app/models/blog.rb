@@ -9,5 +9,6 @@ class Blog
    property :created_at,  DateTime
    property :updated_at,  DateTime
 
-   has n, :articles
+   has n, :blog_articles # Each co-author can have the article in their blog!
+   has n, :articles, :through => :blog_articles
 end
