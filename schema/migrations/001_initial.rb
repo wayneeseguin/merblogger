@@ -64,6 +64,13 @@ migration(1, :initial) do
       column :html,         DataMapper::Types::Text
     end
 
+    create_table :users do
+      column :id,               Integer, :serial => true
+      column :login,            String, :length => 255
+      column :crypted_password, String
+      column :salt,             String
+    end
+
     #
     # User & Admin Preferences
     #
@@ -80,7 +87,7 @@ migration(1, :initial) do
   end
 
   down do
-    [:articles,:article_authors,:comments,:admin_preferences,:user_preferences,:blogs, :blog_articles].each do |table_name|
+    [:articles,:article_authors,:comments,:admin_preferences,:user_preferences,:blogs, :blog_articles,:users].each do |table_name|
       begin
         drop_table table_name
       rescue Exception => e
