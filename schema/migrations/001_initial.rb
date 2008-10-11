@@ -5,6 +5,7 @@
 # or
 # rake dm:db:migrate:down ; rake dm:db:migrate:up
 
+include DataMapper::Types
 migration(1, :initial) do
   up do
     create_table :articles do
@@ -13,15 +14,15 @@ migration(1, :initial) do
       column :version,      Integer
       column :title,        String, :length => 255
       column :sub_title,    String, :length => 255
-      column :slug,         DataMapper::Types::Slug, :length => 255 # Will store an SEO friendly slug
+      column :slug,         Slug, :length => 255 # Will store an SEO friendly slug
       column :state,        String, :length => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
       column :publised_at,  DateTime  # Allow them to set publish date
       column :markup,       String, :length => 32
 
-      column :raw,          DataMapper::Types::Text
-      column :html,         DataMapper::Types::Text
+      column :raw,          Text
+      column :html,         Text
 
       column :created_at,         DateTime
       column :updated_at,         DateTime
@@ -63,15 +64,15 @@ migration(1, :initial) do
       column :email,        String,  :length => 255
       column :alias,        String,  :length => 255
       column :gravatar_url, String,  :length => 255
-      column :raw,          DataMapper::Types::Text
-      column :html,         DataMapper::Types::Text
+      column :raw,          Text
+      column :html,         Text
     end
 
     create_table :users do
       column :id,               Integer, :serial => true
       column :login,            String, :length => 255
-      column :crypted_password, String
-      column :salt,             String
+      column :crypted_password, String, :length => 50
+      column :salt,             String, :length => 50
     end
 
     #
@@ -79,18 +80,37 @@ migration(1, :initial) do
     #
     create_table :admin_preferences do
       column :user_id, String, :size => 18, :key => true
-      column :hash, DataMapper::Types::Text
+      column :hash, Text
     end
 
     create_table :user_preferences do
       column :user_id, String, :size => 18, :key => true
-      column :hash, DataMapper::Types::Text
+      column :hash, Text
+    end
+
+    create_table :roles do
+      column :id,   Serial, :key => true
+      column :name, String, :length => 255
+    end
+
+    create_table :permissions do
+      column :id,   Serial, :key => true
+      column :name, String, :length => 255
     end
     
+    create_table :user_roles do
+      column :user_id, Integer
+      column :role_id, Integer
+    end
+
+    create_table :role_permissions do
+      column :role_id,       Integer
+      column :permission_id, Integer
+    end
   end
 
   down do
-    [:articles,:article_authors,:comments,:admin_preferences,:user_preferences,:blogs, :blog_articles,:users].each do |table_name|
+    [:articles,:article_authors,:comments,:admin_preferences,:user_preferences,:blogs, :blog_articles,:users,:roles, :permissions, :user_roles, :role_permissions].each do |table_name|
       begin
         drop_table table_name
       rescue Exception => e

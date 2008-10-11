@@ -5,5 +5,8 @@ class User
   property :login,            String
   property :crypted_password, String
   property :salt,             String
+
+  has n, :user_roles
+  has n, :roles, :through => :user_roles
   
 end
