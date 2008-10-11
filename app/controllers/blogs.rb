@@ -1,5 +1,5 @@
 class Blogs < Application
-  # provides :xml, :yaml, :js
+  provides :json
 
   def index
     @blogs = Blog.all

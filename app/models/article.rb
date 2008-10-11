@@ -55,6 +55,8 @@ class Article
         self.html = RedCloth.new(@raw).to_html
       elsif markup == "markdown"
         self.html = BlueCloth.new(@raw).to_html
+      elsif markup == "plain"
+        self.html = "<pre>#{@raw}</pre>"
       else
         return [false, "No markup was specified."]
       end
@@ -67,14 +69,6 @@ class Article
   #############################################################################
   is_state_machine  
   #############################################################################
-
-  # See note on start_if_not_new below
-  # before :save, :start_if_not_new
-  
-  ### 
-  # State Machine
-  #
-  
   States = %w(draft preview published archived deleted)
   
   is :state_machine, :initial => :draft, :column => :state do
@@ -132,9 +126,9 @@ class Article
       #self.deleted_by = current_user
       #self.update_attributes(:deleted => current_user.id) if current_user
     end
-    #hash = {:state => state}
     #self.updated_by = current_user
     #hash.merge(:updated_by => current_user.id) if current_user
+
     # Because we are using the block this is required.
     # The block is used for rejecting the state if necessary, here we are 
     # using it for adding accountability.

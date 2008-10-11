@@ -1,0 +1,13 @@
+<script type="text/x-jquery-template" title="authors">
+<div id="authors">
+<% $.each(self, function(index, author) { %>
+  <%= partial("author", author) %>
+<% }); %>
+</div>
+</script>
+
+<script type="text/x-jquery-template" title="author">
+<div class="blog">
+  <%= self.name %>
+</div>
+</script>

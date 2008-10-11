@@ -1,0 +1,12 @@
+<h1>Authors controller, edit action</h1>
+
+<p>Edit this file in <tt>app/views/authors/edit.html.erb</tt></p>
+
+<%= form_for(@author, :action => url(:author, @author)) do %>
+  <p>
+    <%= submit "Update" %>
+  </p>
+<% end =%>
+
+<%= link_to 'Show', url(:author, @author) %> |
+<%= link_to 'Back', url(:authors) %>

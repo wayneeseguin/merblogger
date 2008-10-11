@@ -1,0 +1,93 @@
+
+<script type="text/x-jquery-template" title="articles">
+<% $.each(self, function(index, article) { %>
+  <%= partial("article", article) %>
+<% }); %>
+</script>
+
+<script type="text/x-jquery-template" title="article">
+  <div class="article" article_id="<%= self.id %>">
+    <div class="header">
+      <div class="menu"> </div>
+      <div class="title">
+        <%= self.title %>
+      </div>
+      <div class="sub_title">
+        <%= self.sub_title %>
+      </div>
+    </div>
+
+    <div class="body">
+      <%= self.html || "" %>
+    </div>
+
+    <div class="footer">
+      <div class="authors">
+        By: 
+        <select name="author">
+          <option value="2" selected="selected">Wayne E. Seguin</option>
+        </select>
+      </div>
+      <div class="tags">
+        Tags: <%= self.tags %>
+        <div name="tags" value=""/>
+      </div>
+      <div class="published_at">
+      Published on<%= self.published_at %>
+      </div>
+      <div id="actions">
+        <input type="submit" class="submit" value="Save"/>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/x-jquery-template" title="article_form">
+<form action="/articles" method="article" class="article">
+  <div class="article notebook" article_id="<%= self.id %>">
+    <div class="header">
+      <div class="menu">Article</div>
+      <div class="title">
+        <input class="title" name="article[title]" value="<%= self.title || "" %>"/>
+      </div>
+      <div class="title">
+        <input class="title" name="article[sub_title]" value="<%= self.sub_title || "" %>"/>
+      </div>
+    </div>
+    <div class="content">
+      <div class="body">
+        <textarea name="article[html]"><%= self.html || "" %></textarea>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="authors">
+        By: 
+        <select name="author">
+          <% $.each($.authors || [], function (index, author) { %>
+          <option value="<%= author.id %>"> <%= author.name %> </option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="tags">
+        Tags: 
+        <input name="tags" value="<%= self.tags %>"/>
+      </div>
+      <div class="markup">
+      Markup: 
+        <select name="article[markup]">
+          <option value="textile" selected="selected">Textile</option>
+          <option value="markaby">Markaby</option>
+          <option value="plain">Plain Text</option>
+        </select>
+      </div>
+      <div class="publish">
+      Publish at:
+      <input name="article[published_at]" value="<%= self.published_at %>"/>
+      </div>
+      <div id="actions">
+        <input type="submit" class="submit" value="Save"/>
+      </div>
+    </div>
+  </div>
+</form>
+</script>

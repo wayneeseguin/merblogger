@@ -1,0 +1,14 @@
+<script type="text/x-jquery-template" title="comments">
+<div id="comments">
+<% $.each(self, function(index, comment) { %>
+  <%= partial("comment", comment) %>
+<% }); %>
+</div>
+</script>
+
+<script type="text/x-jquery-template" title="comment">
+<div class="comment">
+  <%= self.title %>
+  <%= self.html %>
+</div>
+</script>

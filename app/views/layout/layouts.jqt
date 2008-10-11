@@ -1,11 +1,10 @@
-<script type="text/x-jquery-template" title="default">
-<div id="header">
-</div>
-<div id="content">
+<script type="text/x-jquery-template" title="default_layout">
+  <div id="header"> </div>
+  <div id="content"> </div>
+  <div id="footer"> </div>
+</script>
 
-</div>
-<div id="footer">
-  
-</div>
+<script type="text/x-jquery-template" title="footnote">
+  <div class="copyright center">&copy;2008 - <%= self.date.getFullYear() %> MerBlogger :)</div>
 </script>
 

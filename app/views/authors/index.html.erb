@@ -1,0 +1,18 @@
+<h1>Authors controller, index action</h1>
+
+<p>Edit this file in <tt>app/views/authors/index.html.erb</tt></p>
+
+<table>
+  <tr>
+  </tr>
+
+<% for author in @authors %>
+  <tr>
+    <td><%= link_to 'Show', url(:author, author) %></td>
+    <td><%= link_to 'Edit', url(:edit_author,  author) %></td>
+    <td><%= delete_button author %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'New', url(:new_author) %>
