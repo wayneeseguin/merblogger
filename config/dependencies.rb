@@ -17,6 +17,6 @@ dependency "dm-validations", ">=0.9.6"   # Validation framework
 dependency "dm-polymorphic"
 dependency "dm-serializer"
 dependency "merb-auth"
-dependency "merb_auth_password_slice"
+dependency "merb-auth-slice-password"
 dependency "RedCloth", ">= 4.0"
 dependency "BlueCloth"
