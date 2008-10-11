@@ -7,22 +7,21 @@
 
 migration(1, :initial) do
   up do
-    
     create_table :articles do
       column :id, Integer, :serial => true
 
       column :version,      Integer
       column :title,        String, :length => 255
       column :sub_title,    String, :length => 255
-      column :slug,         String, :length => 255 # Will store an SEO friendly slug
+      column :slug,         DataMapper::Types::Slug, :length => 255 # Will store an SEO friendly slug
       column :state,        String, :length => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
       column :publised_at,  DateTime  # Allow them to set publish date
       column :markup,       String, :length => 32
 
-      property :raw,        Text
-      property :html,       Text
+      column :raw,        DataMapper::Types::Text
+      column :html,       DataMapper::Types::Text
 
       column :created_at,   DateTime
       column :updated_at,   DateTime
@@ -44,15 +43,15 @@ migration(1, :initial) do
     end
 
     create_table :blog_articles do
-      property :blog_id, Integer, :key => true
-      property :article_id,  Integer, :key => true
-      property :created_at, Time
+      column :blog_id, Integer, :key => true
+      column :article_id,  Integer, :key => true
+      column :created_at, Time
     end
 
     create_table :article_authors do
-      property :article_id, Integer, :key => true
-      property :author_id,  Integer, :key => true
-      property :created_at, Time
+      column :article_id, Integer, :key => true
+      column :author_id,  Integer, :key => true
+      column :created_at, Time
     end
     
     create_table :comments do
@@ -61,8 +60,8 @@ migration(1, :initial) do
       column :email,        String,  :length => 255
       column :alias,        String,  :length => 255
       column :gravatar_url, String,  :length => 255
-      column :raw,          Text
-      column :html,         Text
+      column :raw,          DataMapper::Types::Text
+      column :html,         DataMapper::Types::Text
     end
 
     #
@@ -90,4 +89,3 @@ migration(1, :initial) do
     end
   end
 end
-
