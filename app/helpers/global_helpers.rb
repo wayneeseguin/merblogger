@@ -18,7 +18,7 @@ module Merb
       ],
       :app => [
         "master",
-        "ui"
+        "public"
       ]
     }
 

@@ -6,7 +6,7 @@ function load_ui () {
     html("header");
   
   //$("div#content");
-  get_entities("blogs", blogs); // TODO: 
+  get_entities("blogs", blogs);
   
   $("div#footer").
     append($.templates.footnote({date: new Date()}));
@@ -14,10 +14,15 @@ function load_ui () {
 
 function blogs() {
   $("div#content").
-    append($.templates.blogs($.blogs));
+    append($.templates.blogs($.app.blogs));
 }
 
 function articles() {
-  $("div#content").
-    append($.templates.articles($.articles));
+  $("div#blogs").
+    append($.templates.articles($.app.articles));
+}
+
+function comments() {
+  $("div#articles").
+    append($.templates.articles($.app.articles));
 }

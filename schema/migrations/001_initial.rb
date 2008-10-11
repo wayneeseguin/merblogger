@@ -3,7 +3,7 @@
 # reset via:
 # rake app:reload
 # or
-# rake dm:db:migrate:down ; rake dm:db:migrate:up
+# rake db:migrate:down ; rake db:migrate:up
 
 include DataMapper::Types
 migration(1, :initial) do
@@ -12,14 +12,14 @@ migration(1, :initial) do
       column :id, Integer, :serial => true
 
       column :version,      Integer
-      column :title,        String, :length => 255
-      column :sub_title,    String, :length => 255
-      column :slug,         Slug, :length => 255 # Will store an SEO friendly slug
-      column :state,        String, :length => 16, :default => "draft" # we'll use state_machine on this
+      column :title,        String, :size => 255
+      column :sub_title,    String, :size => 255
+      column :slug,         Slug, :size => 255 # Will store an SEO friendly slug
+      column :state,        String, :size => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
       column :publised_at,  DateTime  # Allow them to set publish date
-      column :markup,       String, :length => 32
+      column :markup,       String, :size => 32
 
       column :raw,          Text
       column :html,         Text
@@ -31,24 +31,24 @@ migration(1, :initial) do
       column :created_by_id,      Integer
       column :updated_by_id,      Integer
       column :deleted_by_id,      Integer
-      column :created_by_class,   String, :length => 16
-      column :updated_by_class,   String, :length => 16
-      column :deleted_by_class,   String, :length => 16
+      column :created_by_class,   String, :size => 16
+      column :updated_by_class,   String, :size => 16
+      column :deleted_by_class,   String, :size => 16
     end
 
     create_table :blogs do
       column :id,          Integer, :serial => true
-      column :name,        String,  :length => 32
-      column :title,       String,  :length => 128
-      column :tagline,     String
+      column :name,        String,  :size => 32
+      column :title,       String,  :size => 128
+      column :tagline,     String,  :size => 128
       column :logo_id,     Integer 
       column :created_at,  DateTime
       column :updated_at,  DateTime
     end
 
     create_table :blog_articles do
-      column :blog_id, Integer, :key => true
-      column :article_id,  Integer, :key => true
+      column :blog_id,    Integer, :key => true
+      column :article_id, Integer, :key => true
       column :created_at, Time
     end
 
@@ -60,19 +60,21 @@ migration(1, :initial) do
     
     create_table :comments do
       column :id,           Integer, :serial => true
-      column :title,        String,  :length => 255
-      column :email,        String,  :length => 255
-      column :alias,        String,  :length => 255
-      column :gravatar_url, String,  :length => 255
+      column :article_id,           Integer
+      column :title,        String,  :size => 255
+      column :email,        String,  :size => 255
+      column :alias,        String,  :size => 255
+      column :gravatar_url, String,  :size => 255
+      column :markup,       String,  :size => 32
       column :raw,          Text
       column :html,         Text
     end
-
+    
     create_table :users do
       column :id,               Integer, :serial => true
-      column :login,            String, :length => 255
-      column :crypted_password, String, :length => 50
-      column :salt,             String, :length => 50
+      column :login,            String, :size => 255
+      column :crypted_password, String, :size => 50
+      column :salt,             String, :size => 50
     end
 
     #
@@ -90,12 +92,12 @@ migration(1, :initial) do
 
     create_table :roles do
       column :id,   Serial, :key => true
-      column :name, String, :length => 255
+      column :name, String, :size => 255
     end
 
     create_table :permissions do
       column :id,   Serial, :key => true
-      column :name, String, :length => 255
+      column :name, String, :size => 255
     end
     
     create_table :user_roles do
