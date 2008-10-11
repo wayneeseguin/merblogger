@@ -10,5 +10,9 @@ class User
   has n, :roles, :through => :user_roles
 
   def role_names; roles.map{|r| r.name}; end
+
+  def permissions; roles.inject([]){|a,r| a + r.permissions}; end
+
+  def permission_names; permissions.map{|p| p.name}; end
   
 end

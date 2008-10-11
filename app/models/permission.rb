@@ -3,7 +3,6 @@ class Permission
   
   property :id,   Serial, :key => true
   property :name, String, :length => 255
-  
 
 
 end
