@@ -1,8 +1,0 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
-
-describe "Blogs Controller", "index action" do
-  before(:each) do
-    @controller = Blogs.build(fake_request)
-    @controller.dispatch('index')
-  end
-end
