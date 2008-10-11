@@ -25,13 +25,13 @@ class Article
   property :deleted_by_id,   Integer,  :index => true
   
   # is :versioned, version
-
+  
   #############################################################################
   # Relationships
   #############################################################################
-  belongs_to :created_by, :class_name => "User"
-  belongs_to :updated_by, :class_name => "User"
-  belongs_to :deleted_by, :class_name => "User"
+  is :polymorphic, :created_by
+  is :polymorphic, :updated_by
+  is :polymorphic, :deleted_by
 
   has n, :comments
   has n, :blog_articles
@@ -77,7 +77,7 @@ class Article
   
   States = %w(draft preview published archived deleted)
   
-  is :state_machine, :initial => :new, :column => :state do
+  is :state_machine, :initial => :draft, :column => :state do
     state :draft,     :enter => Proc.new { |entity| entity.change_state(:draft) }
     state :preview,   :enter => Proc.new { |entity| entity.change_state(:preview) }
     state :published, :enter => Proc.new { |entity| entity.change_state(:published) }
@@ -119,35 +119,27 @@ class Article
   # When we change state we run these call backs
   def change_state(state)
     # TODO: audit logging of state changes.
-    self.send("callback_#{state.to_s}")
-    hash = {:state => state}
-    self.updated_by = current_user if current_user
+    case state
+    when "draft"
+      Merb.logger.info "draft"
+    when "preview"
+      Merb.logger.info "preview"
+    when "published"
+      self.deleted_by = current_user
+      #self.update_attributes(:published_by => current_user.id) if current_user
+    when "archived"
+    when "deleted"
+      self.deleted_by = current_user
+      #self.update_attributes(:deleted => current_user.id) if current_user
+    end
+    #hash = {:state => state}
+    self.updated_by = current_user
     #hash.merge(:updated_by => current_user.id) if current_user
-    self.update_attributes(:state => state) # This seems like a hack :(
-    self.reload
+    #self.update_attributes(:state => state) # This seems like a hack :(
+    #self.reload
   end
-  
-  # Callbacks
-  
-  def callback_draft
-    Merb.logger.info "draft"
+    
+  def current_user
+    @current_user ||= User.find(session[:user_id] || 1)
   end
-  
-  def callback_preview
-    Merb.logger.info "preview"
-  end
-  
-  def callback_published
-    self.deleted_by = current_user if current_user
-    #self.update_attributes(:published_by => current_user.id) if current_user
-  end
-  
-  def callback_archived
-  end
-  
-  def callback_deleted
-    self.deleted_by = current_user if current_user
-    #self.update_attributes(:deleted => current_user.id) if current_user
-  end
-
 end

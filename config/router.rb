@@ -38,9 +38,12 @@ Merb::Router.prepare do
     slice(:MerbAuth, :name_prefix => nil, :path_prefix => nil)
   end
   
+  all_slices
 
   match('/').
     to(:controller => "blogs", :action => "index")
 
   merb_auth_routes(:name_prefix => nil, :path_prefix => "")
+  
+  
 end

@@ -23,13 +23,16 @@ migration(1, :initial) do
       column :raw,          DataMapper::Types::Text
       column :html,         DataMapper::Types::Text
 
-      column :created_at,      DateTime
-      column :updated_at,      DateTime
-      column :deleted_at,      DateTime
-      column :published_by_id, Integer
-      column :created_by_id,   Integer
-      column :updated_by_id,   Integer
-      column :deleted_by_id,   Integer
+      column :created_at,         DateTime
+      column :updated_at,         DateTime
+      column :deleted_at,         DateTime
+      column :published_by_id,    Integer
+      column :created_by_id,      Integer
+      column :updated_by_id,      Integer
+      column :deleted_by_id,      Integer
+      column :created_by_class,   String, :length => 16
+      column :updated_by_class,   String, :length => 16
+      column :deleted_by_class,   String, :length => 16
     end
 
     create_table :blogs do
@@ -69,7 +72,6 @@ migration(1, :initial) do
       column :login,            String, :length => 255
       column :crypted_password, String
       column :salt,             String
-      column :created_by_id,    Integer
     end
 
     #
