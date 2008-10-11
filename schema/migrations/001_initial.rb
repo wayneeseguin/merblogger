@@ -21,8 +21,8 @@ migration(1, :initial) do
       column :publised_at,  DateTime  # Allow them to set publish date
       column :markup,       String, :length => 32
 
-      property :raw,         Text
-      property :html,        Text
+      property :raw,        Text
+      property :html,       Text
 
       column :created_at,   DateTime
       column :updated_at,   DateTime
@@ -43,19 +43,19 @@ migration(1, :initial) do
       column :updated_at,  DateTime
     end
 
-    create_table :blog_articles
+    create_table :blog_articles do
       property :blog_id, Integer, :key => true
       property :article_id,  Integer, :key => true
       property :created_at, Time
     end
 
-    create_table :article_authors
+    create_table :article_authors do
       property :article_id, Integer, :key => true
       property :author_id,  Integer, :key => true
       property :created_at, Time
     end
     
-    create_table :comments
+    create_table :comments do
       column :id,           Integer, :serial => true
       column :title,        String,  :length => 255
       column :email,        String,  :length => 255

@@ -2,7 +2,7 @@ class Article
   include DataMapper::Resource
 
   # Properties
-  property :id, Integer, :serial => true
+  property :id,              Integer,  :serial => true
   property :version,         Integer
   property :title,           String,   :length => 255
   property :sub_title,       String,   :length => 255
