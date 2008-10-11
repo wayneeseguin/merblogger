@@ -29,9 +29,9 @@ class Article
   #############################################################################
   # Relationships
   #############################################################################
-  has 1, :created_by, :class_name => "User"
-  has 1, :updated_by, :class_name => "User"
-  has 1, :deleted_by, :class_name => "User"
+  belongs_to :created_by, :class_name => "User"
+  belongs_to :updated_by, :class_name => "User"
+  belongs_to :deleted_by, :class_name => "User"
 
   has n, :comments
   has n, :blog_articles
