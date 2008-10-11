@@ -1,7 +1,7 @@
 class User
+  Merb::Authentication.user_class = self
   include DataMapper::Resource
-  
-  property :id,               Integer
+  property :id,               Serial, :key => true
   property :login,            String
   property :crypted_password, String
   property :salt,             String
