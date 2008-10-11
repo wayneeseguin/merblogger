@@ -1,0 +1,18 @@
+<h1>Blogs controller, index action</h1>
+
+<p>Edit this file in <tt>app/views/blogs/index.html.erb</tt></p>
+
+<table>
+  <tr>
+  </tr>
+
+<% for blog in @blogs %>
+  <tr>
+    <td><%= link_to 'Show', url(:blog, blog) %></td>
+    <td><%= link_to 'Edit', url(:edit_blog,  blog) %></td>
+    <td><%= delete_button blog %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'New', url(:new_blog) %>

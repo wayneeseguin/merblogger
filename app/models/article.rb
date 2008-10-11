@@ -37,7 +37,7 @@ class Article
     elsif markup == "markdown"
       self.html = BlueCloth.new(@raw).to_html
     else
-      return [false, "No content was supplied."]
+      return [false, "No markup was specified."]
     end
     true
   end

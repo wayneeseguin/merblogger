@@ -1,0 +1,11 @@
+<h1>Blogs controller, new action</h1>
+
+<p>Edit this file in <tt>app/views/blogs/new.html.erb</tt></p>
+
+<%= form_for(@blog, :action => url(:blogs) ) do %>
+  <p>
+    <%= submit "Create" %>
+  </p>
+<% end =%>
+
+<%= link_to 'Back', url(:blogs) %>

@@ -27,6 +27,15 @@ migration(1, :initial) do
       column :deleted_by,   Integer
     end
 
+    create_table :blogs do
+      column :id,          Integer, :serial => true
+      column :name,        String,  :length => 32
+      column :title,       String,  :length => 128
+      column :tagline,     String
+      column :logo_id,     Integer 
+      column :created_at,  DateTime
+      column :updated_at,  DateTime
+    end
     create_table :authors
       property :article_id, Integer, :key => true
       property :author_id,  Integer, :key => true
@@ -59,7 +68,7 @@ migration(1, :initial) do
   end
 
   down do
-    [:articles,:authors,:comments,:admin_preferences,:user_preferences].each do |table_name|
+    [:articles,:authors,:comments,:admin_preferences,:user_preferences,:blogs].each do |table_name|
       begin
         drop_table table_name
       rescue Exception => e
