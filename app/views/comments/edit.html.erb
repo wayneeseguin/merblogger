@@ -1,0 +1,12 @@
+<h1>Comments controller, edit action</h1>
+
+<p>Edit this file in <tt>app/views/comments/edit.html.erb</tt></p>
+
+<%= form_for(@comment, :action => url(:comment, @comment)) do %>
+  <p>
+    <%= submit "Update" %>
+  </p>
+<% end =%>
+
+<%= link_to 'Show', url(:comment, @comment) %> |
+<%= link_to 'Back', url(:comments) %>

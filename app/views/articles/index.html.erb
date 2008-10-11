@@ -1,0 +1,18 @@
+<h1>Articles controller, index action</h1>
+
+<p>Edit this file in <tt>app/views/articles/index.html.erb</tt></p>
+
+<table>
+  <tr>
+  </tr>
+
+<% for article in @articles %>
+  <tr>
+    <td><%= link_to 'Show', url(:article, article) %></td>
+    <td><%= link_to 'Edit', url(:edit_article,  article) %></td>
+    <td><%= delete_button article %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'New', url(:new_article) %>

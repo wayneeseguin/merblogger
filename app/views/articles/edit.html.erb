@@ -1,0 +1,12 @@
+<h1>Articles controller, edit action</h1>
+
+<p>Edit this file in <tt>app/views/articles/edit.html.erb</tt></p>
+
+<%= form_for(@article, :action => url(:article, @article)) do %>
+  <p>
+    <%= submit "Update" %>
+  </p>
+<% end =%>
+
+<%= link_to 'Show', url(:article, @article) %> |
+<%= link_to 'Back', url(:articles) %>

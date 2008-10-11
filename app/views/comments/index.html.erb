@@ -1,0 +1,18 @@
+<h1>Comments controller, index action</h1>
+
+<p>Edit this file in <tt>app/views/comments/index.html.erb</tt></p>
+
+<table>
+  <tr>
+  </tr>
+
+<% for comment in @comments %>
+  <tr>
+    <td><%= link_to 'Show', url(:comment, comment) %></td>
+    <td><%= link_to 'Edit', url(:edit_comment,  comment) %></td>
+    <td><%= delete_button comment %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'New', url(:new_comment) %>

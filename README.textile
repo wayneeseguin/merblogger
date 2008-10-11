@@ -1,0 +1,3 @@
+= merblogger # merb + logger merblogger
+
+merblogger.com - Ruby community blog, anybody doing ruby gets a blog there
