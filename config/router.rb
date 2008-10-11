@@ -34,9 +34,7 @@ Merb::Router.prepare do
     end
   end
 
-  Merb::Router.prepare do
-    slice(:MerbAuth, :name_prefix => nil, :path_prefix => nil)
-  end
+  slice(:MerbAuth, :name_prefix => nil, :path_prefix => nil)
   
 
   match('/').
