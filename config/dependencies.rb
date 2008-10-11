@@ -13,3 +13,10 @@ dependency "dm-sweatshop", "0.9.6"    # Generate pseudorandom models for testing
 dependency "dm-timestamps", "0.9.6"   # Automatically populate created_at, created_on, etc. when those properties are present.
 dependency "dm-types", "0.9.6"        # Provides additional types, including csv, json, yaml.
 dependency "dm-validations", "0.9.6"  # Validation framework
+
+dependency "dm-polymorphic"
+dependency "dm-serializer"
+dependency "merb-auth"
+dependency "merb_auth_password_slice"
+dependency "RedCloth", ">= 4.0"
+dependency "BlueCloth"
