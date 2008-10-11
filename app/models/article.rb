@@ -1,7 +1,9 @@
 class Article
   include DataMapper::Resource
 
+  #############################################################################
   # Properties
+  #############################################################################
   property :id,              Integer,  :serial => true
   property :version,         Integer
   property :title,           String,   :length => 255
@@ -24,7 +26,9 @@ class Article
   
   # is :versioned, version
 
+  #############################################################################
   # Relationships
+  #############################################################################
   has 1, :created_by, :child_key => [:created_by_id], :class_name => "User"
   has 1, :updated_by, :child_key => [:updated_by_id], :class_name => "User"
   has 1, :deleted_by, :child_key => [:deleted_by_id], :class_name => "User"
@@ -35,7 +39,16 @@ class Article
   has n, :article_authors
   has n, :authors, :through => :article_authors
 
-  # Make sure
+  #############################################################################
+  # Validations
+  #############################################################################
+  validates_present :raw
+  validates_present :title
+  
+  #validates_within :markup,  :set => Formatter.formatters, :if => Proc.new {|m| m.send(:published?)}
+  #validates_format :slug,    :with => /^[a-z0-9-]+$/,      :if => Proc.new {|m| m.send(:published?)}
+  #validates_block  :html,    :logic  => Proc.new{|m| m.formatted_body != FORMATTING_ERROR }, 
+
   validates_with_block :raw do
     begin
       if markup == "textile"
@@ -51,29 +64,9 @@ class Article
     true
   end
 
-####
-  #before :valid? do
-  #  set_validations_if_published
-  #end
-  #validates_present     :raw,                                   :if => Proc.new {|m| m.send(:validate_for_publishing?)}
-  #validates_present     :title,                                 :if => Proc.new {|m| m.send(:validate_for_publishing?)}
-  #validates_within      :format,  :set => Formatter.formatters, :if => Proc.new {|m| m.send(:validate_for_publishing?)}
-  #validates_format      :slug,    :with => /^[a-z0-9-]+$/,      :if => Proc.new {|m| m.send(:validate_for_publishing?)}
-  #validates_block       :body,    :logic  => Proc.new{|m| m.formatted_body != FORMATTING_ERROR }, 
-#                                  :if     => Proc.new{|m| m.send(:validate_for_publishing?)}
-#private
-#
-#    def validate_for_publishing?
-#      @validate_for_publishing
-#    end
-#    def set_validations_if_published
-#      @validate_for_publishing = published?
-#    end
-####  
-
-##################################################
-
+  #############################################################################
   is_state_machine  
+  #############################################################################
 
   # See note on start_if_not_new below
   # before :save, :start_if_not_new
