@@ -125,21 +125,24 @@ class Article
     when "preview"
       Merb.logger.info "preview"
     when "published"
-      self.deleted_by = current_user
+      #self.deleted_by = current_user
       #self.update_attributes(:published_by => current_user.id) if current_user
     when "archived"
     when "deleted"
-      self.deleted_by = current_user
+      #self.deleted_by = current_user
       #self.update_attributes(:deleted => current_user.id) if current_user
     end
     #hash = {:state => state}
-    self.updated_by = current_user
+    #self.updated_by = current_user
     #hash.merge(:updated_by => current_user.id) if current_user
-    #self.update_attributes(:state => state) # This seems like a hack :(
-    #self.reload
+    # Because we are using the block this is required.
+    # The block is used for rejecting the state if necessary, here we are 
+    # using it for adding accountability.
+    self.update_attributes(:state => state)
+    self.reload
   end
     
   def current_user
-    @current_user ||= User.find(session[:user_id] || 1)
+    @current_user ||= (User.find(Merb::Session[:user_id]) rescue 2) # Default to the admin user.
   end
 end
