@@ -16,13 +16,13 @@ class Article
   property :markup,          String,   :length => 32
   property :raw,             Text
   property :html,            Text
-  property :created_at,      DateTime, :index => true, :writer => :private
-  property :updated_at,      DateTime, :index => true, :writer => :private
-  property :deleted_at,      DateTime, :index => true, :writer => :private
-  property :published_by_id, Integer,  :index => true, :writer => :private
-  property :created_by_id,   Integer,  :index => true, :writer => :private
-  property :updated_by_id,   Integer,  :index => true, :writer => :private
-  property :deleted_by_id,   Integer,  :index => true, :writer => :private
+  property :created_at,      DateTime, :index => true
+  property :updated_at,      DateTime, :index => true
+  property :deleted_at,      DateTime, :index => true
+  property :published_by_id, Integer,  :index => true
+  property :created_by_id,   Integer,  :index => true
+  property :updated_by_id,   Integer,  :index => true
+  property :deleted_by_id,   Integer,  :index => true
   
   # is :versioned, version
 
