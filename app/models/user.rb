@@ -6,5 +6,4 @@ class User
   property :crypted_password, String
   property :salt,             String
   
-
 end

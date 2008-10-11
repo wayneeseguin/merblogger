@@ -29,9 +29,9 @@ class Article
   #############################################################################
   # Relationships
   #############################################################################
-  has 1, :created_by, :child_key => [:created_by_id], :class_name => "User"
-  has 1, :updated_by, :child_key => [:updated_by_id], :class_name => "User"
-  has 1, :deleted_by, :child_key => [:deleted_by_id], :class_name => "User"
+  has 1, :created_by, :class_name => "User"
+  has 1, :updated_by, :class_name => "User"
+  has 1, :deleted_by, :class_name => "User"
 
   has n, :comments
   has n, :blog_articles
@@ -120,6 +120,9 @@ class Article
   def change_state(state)
     # TODO: audit logging of state changes.
     self.send("callback_#{state.to_s}")
+    hash = {:state => state}
+    self.updated_by = current_user if current_user
+    #hash.merge(:updated_by => current_user.id) if current_user
     self.update_attributes(:state => state) # This seems like a hack :(
     self.reload
   end
@@ -135,12 +138,16 @@ class Article
   end
   
   def callback_published
+    self.deleted_by = current_user if current_user
+    #self.update_attributes(:published_by => current_user.id) if current_user
   end
   
   def callback_archived
   end
   
   def callback_deleted
+    self.deleted_by = current_user if current_user
+    #self.update_attributes(:deleted => current_user.id) if current_user
   end
 
 end

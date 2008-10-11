@@ -20,12 +20,12 @@ migration(1, :initial) do
       column :publised_at,  DateTime  # Allow them to set publish date
       column :markup,       String, :length => 32
 
-      column :raw,        DataMapper::Types::Text
-      column :html,       DataMapper::Types::Text
+      column :raw,          DataMapper::Types::Text
+      column :html,         DataMapper::Types::Text
 
-      column :created_at,   DateTime
-      column :updated_at,   DateTime
-      column :deleted_at,   DateTime
+      column :created_at,      DateTime
+      column :updated_at,      DateTime
+      column :deleted_at,      DateTime
       column :published_by_id, Integer
       column :created_by_id,   Integer
       column :updated_by_id,   Integer
@@ -69,6 +69,7 @@ migration(1, :initial) do
       column :login,            String, :length => 255
       column :crypted_password, String
       column :salt,             String
+      column :created_by_id,    Integer
     end
 
     #
