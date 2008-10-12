@@ -1,24 +1,36 @@
 
 <script type="text/x-jquery-template" title="articles">
 <div class="articles" blog_id="<%= self.blog_id %>">
-  <div class="menu top"> <span class="back"> &laquo; blogs</div>
-<% $.each(self.articles, function(index, article) { %>
+<%= partial("articles_menu", {location: "top"}) %>
+  <% self.articles.push({id: 0}); %>
+  <% $.each(self.articles || [], function(index, article) { %>
   <%= partial("article", article) %>
-<% }); %>
-  <div class="menu bottom"> </div>
+  <% }); %>
+
+<%= partial("articles_menu", {location: "bottom"}) %>
 </div>
 </script>
 
+<script type="text/x-jquery-template" title="articles_menu">
+  <div class="menu <%= self.location %>">
+    <span class="back">[blogs]</span>
+    &laquo;&raquo;
+    <span class="edit link" article_id="<%= self.id %>">[new article]</span>
+  </div>
+</script>
+
 <script type="text/x-jquery-template" title="article">
-  <div class="article" article_id="<%= self.id %>">
+  <div class="article" article_id="<%= self.id %>" <% if(!self.id || self.id == 0) { %>style="display: none;"<% } %>>
     <div class="header">
       <div class="menu"> </div>
       <div class="title">
         <%= self.title %>
       </div>
+     <% if(self.sub_title) { %>
       <div class="sub_title">
         <%= self.sub_title %>
       </div>
+      <% } %>
     </div>
 
     <div class="body">
@@ -26,72 +38,74 @@
     </div>
 
     <div class="footer">
+    <span class="edit link" article_id="<%= self.id %>">[edit]</span>
+    &laquo;&raquo;
       <span class="authors">
         By: 
         <% $.each(self.authors || [], function(index, author) { %>
           <span class="author"><%= author.name %></span>
         <% }); %>
       </span>
+      &laquo;&raquo;
       <span class="published_at">
       Published on <%= self.published_at %>
       </span>
-      <span class="edit link" article_id="<%= self.id %>">[edit]</span>
-      <div class="tags">
+      &laquo;&raquo;
+      <span class="tags">
         Tags:
         <% $.each(self.tags || [], function(index, tag) { %>
           <span class="tag"><%= tag.name %></span>
         <% }); %>
-      </div>
-      <div class="discussion">Discuss this article &raquo;</div>
+      </span>
+      &laquo;&raquo;
+      <span class="discussion">Discussions</span>
     </div>
   </div>
 </script>
 
 <script type="text/x-jquery-template" title="article_form">
 <form action="/articles" method="article" class="article">
-  <div class="article notebook" article_id="<%= self.id %>">
+  <div class="article" article_id="<%= self.id %>">
     <div class="header">
       <div class="menu"> </div>
       <div class="title">
         <input class="title" name="article[title]" value="<%= self.title || "" %>"/>
       </div>
       <div class="title">
-        <input class="title" name="article[sub_title]" value="<%= self.sub_title || "" %>"/>
+        <input class="sub_title" name="article[sub_title]" value="<%= self.sub_title || "" %>"/>
       </div>
     </div>
     <div class="content">
-      <div class="body">
-        <textarea name="article[html]"><%= self.html || "" %></textarea>
-      </div>
+      <textarea name="article[html]"><%= self.html || "" %></textarea>
     </div>
     <div class="footer">
-      <div class="authors">
+      <span class="authors">
         By: 
-        <select name="author">
+        <select name="author" multiple="multiple" name="article[authors][]">
           <% $.each($.authors || [], function (index, author) { %>
           <option value="<%= author.id %>"> <%= author.name %> </option>
           <% }); %>
         </select>
-      </div>
-      <div class="tags">
+      </span>
+      <span class="tags">
         Tags: 
         <input name="tags" value="<%= self.tags %>"/>
-      </div>
-      <div class="markup">
+      </span>
+      <span class="markup">
       Markup: 
         <select name="article[markup]">
           <option value="textile" selected="selected">Textile</option>
           <option value="markaby">Markaby</option>
           <option value="plain">Plain Text</option>
         </select>
-      </div>
-      <div class="publish">
+      </span>
+      <span class="publish">
       Publish at:
       <input name="article[published_at]" value="<%= self.published_at %>"/>
-      </div>
-      <div id="actions">
+      </span>
+      <span id="actions">
         <input type="submit" class="submit" value="Save"/>
-      </div>
+      </span>
     </div>
   </div>
 </form>

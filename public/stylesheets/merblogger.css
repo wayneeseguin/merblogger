@@ -1,72 +1,72 @@
+/* @override http://localhost:4000/stylesheets/merblogger.css */
 div#header > h2 {
   font-size: xx-large;
   text-align: center;
 }
 
-div#content {
+div#merblogger div#content {
 }
 
 /* @group blogs */
 
-div#blogs {
+div#merblogger div#blogs {
   margin-left: auto;
   margin-right: auto;
 }
 
-span.blog {
+div#merblogger span.blog {
   font-size: large;
 }
 
-span.blog:hover {
+div#merblogger span.blog:hover {
   cursor: pointer;
 }
 
-.back {
+div#merblogger .back {
   cursor: pointer;
 }
 /* @end */
 
 /* @group Articles */
 
-div#articles {
+div#merblogger div#articles {
   margin-left: auto;
   margin-right: auto;
 }
 
-div.article {
+div#merblogger div.article {
   margin-top: 5ex;
 }
 
-div.article .title {
+div#merblogger div.article .title {
   font-weight: bold;
   font-size: x-large;
 }
 
-div.article .sub_title {
+div#merblogger div.article .sub_title {
   font-weight: bold;
   font-size: large;
 }
 
-div.article div.body {
-  background-color: #c8c8c8;
+div#merblogger div.article div.body {
 }
 
-div.article div.body p {
+div#merblogger div.article div.body p {
   text-indent: 3ex;
   padding-left: 5ex;
   padding-right: 5ex;
   text-align: justify;
 }
 
-div.article div.title {
+div#merblogger div.article div.title {
   text-align: center;
 }
 
-div.article div.sub_title {
+div#merblogger div.article div.sub_title {
   text-align: center;
 }
 
-div.article div.footer {
+div#merblogger div.article div.footer {
   padding: 1ex;
   padding-left: 5ex;
   padding-right: 5ex;
@@ -75,34 +75,53 @@ div.article div.footer {
   border-bottom: 2px solid grey;
 }
 
-.discussion {
+div#merblogger div.article .discussion {
   cursor: pointer;
   text-align: right;
 }
 
-.edit {
+div#merblogger form.article {
+	background: grey;
+}
+
+div#merblogger form.article textarea {
+  width: 100%;
+  height: 20em;
+  margin-top: 15px;
+  font-size: large;
+}
+
+div#merblogger form.article input.title {
+  width: 50%;
+}
+
+div#merblogger form.article input.sub_title {
+  width: 30%;
+}
+
+div#merblogger .edit {
   cursor: pointer;
 }
 /* @end */
 
 /* @group comments */
 
-div#comments {
+div#merblogger div#comments {
   margin-left: auto;
   margin-right: auto;
 }
 
 /* @end */
 
-.text-small { font-size: small; }
+div#merblogger .text-small { font-size: small; }
 
 /* @group formatting */
 
-.text-large { font-size: large; }
-.text-normal { font-size: normal; }
-.text-x-large { font-size: x-large; }
+div#merblogger .text-large { font-size: large; }
+div#merblogger .text-normal { font-size: normal; }
+div#merblogger .text-x-large { font-size: x-large; }
 
-div#footer {
+div#merblogger div#footer {
   text-align: center;
   margin-top: 5ex;
   color: grey;

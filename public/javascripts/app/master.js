@@ -13,7 +13,12 @@ function get_entities_for (owner_type, owner_id, entity_type, entity_id, callbac
   $.getJSON(url, null, function(payload) {
     $.app[owner_type] = $.app[owner_type] || {};
     $.app[owner_type][owner_id] = $.app[owner_type][owner_id] || {};
-    $.app[owner_type][owner_id][entity_type] = payload;
+    if(entity_id) {
+      // Buffer explicitely
+      $.app[entity_type][entity_id] = payload;
+    } else {
+      $.app[owner_type][owner_id][entity_type] = payload;
+    }
     if(callback) { callback(owner_type,owner_id,entity_type,entity_id,payload); }
   });
 }

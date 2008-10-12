@@ -1,6 +1,9 @@
 function load_ui () {
   display();
+  special();
 }
+
+function special () { }
 
 function display () {
   $("body").
@@ -43,23 +46,33 @@ function articles(owner_type,owner_id,entity_type,entity_id) {
     "blog_id": owner_id, "articles": $.app[owner_type][owner_id].articles
     })
   );
-
+  
   $("div.articles div.menu span.back").click(function() {
     $("div.articles").hide();
     $("div#blogs").show();
+    header("Blogs");
   });
 
-  log($("span.edit").html());
-
   $("span.edit").click(function() {
-    article_edit($(this).attr("article_id"));
+    article_edit(owner_type,owner_id,entity_type,$(this).attr("article_id"));
+  });
+  
+  $("span.new").click(function() {
+    article_edit(owner_type,owner_id,entity_type,0);
   });
 }
 
-function article_edit(article_id) {
-  $("div[article_id="+article_id+"]").empty().append(
-    $.templates.article_form(find_by_id($.app.articles,article_id))
-  );
+function article_edit(owner_type,owner_id,entity_type,article_id) {
+  if(article_id > 0) {
+    owner = find_by_id($.app[owner_type],owner_id);
+    article = find_by_id(owner.articles,article_id);
+  } else {
+    article = {id: 0}
+  }
+  
+  $("div[article_id="+(article_id||0)+"]").empty().append(
+    $.templates.article_form(article)
+  ).show();
   $("form[]").ajaxForm();
 }
 
