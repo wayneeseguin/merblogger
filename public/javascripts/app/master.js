@@ -7,12 +7,14 @@ $(document).ready(function() {
   load_ui(); // Load all dashboard UI features
 });
 
-function get_entities_for (owner_type, owner_id, entity_type, entity_id, callback) { 
-  $.getJSON("/"+owner_type+"/"+owner_id+"/"+entity_type+"/"+entity_id, null, function(payload) {
+function get_entities_for (owner_type, owner_id, entity_type, entity_id, callback) {
+  url = "/"+owner_type+"/"+owner_id+"/"+entity_type+"/"
+  if(entity_id) { url += entity_id; }
+  $.getJSON(url, null, function(payload) {
     $.app[owner_type] = $.app[owner_type] || {};
     $.app[owner_type][owner_id] = $.app[owner_type][owner_id] || {};
     $.app[owner_type][owner_id][entity_type] = payload;
-    if(callback) { callback(payload); }
+    if(callback) { callback(owner_type,owner_id,entity_type,entity_id,payload); }
   });
 }
 

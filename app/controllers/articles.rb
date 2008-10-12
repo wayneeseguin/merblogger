@@ -1,5 +1,5 @@
 class Articles < Application
-  # provides :xml, :yaml, :js
+  provides :json
 
   def index
     @articles = Article.all

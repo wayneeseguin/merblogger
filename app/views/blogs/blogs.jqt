@@ -2,7 +2,7 @@
 <script type="text/x-jquery-template" title="blogs">
 <div id="blogs">
 <% $.each(self, function(index, blog) { %>
-  <%= partial("blog", blog) %>
+  <span class="blog" blog_id="<%= blog.id %>"><%= partial("blog", blog) %></span>
 <% }); %>
 </div>
 </script>

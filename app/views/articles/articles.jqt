@@ -1,8 +1,10 @@
 
 <script type="text/x-jquery-template" title="articles">
-<% $.each(self, function(index, article) { %>
+<div class="articles" blog_id="<%= self.blog_id %>">
+<% $.each(self.articles, function(index, article) { %>
   <%= partial("article", article) %>
 <% }); %>
+</div>
 </script>
 
 <script type="text/x-jquery-template" title="article">
