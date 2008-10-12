@@ -13,6 +13,17 @@ div#blogs {
   margin-right: auto;
 }
 
+span.blog {
+  font-size: large;
+}
+
+span.blog:hover {
+  cursor: pointer;
+}
+
+.back {
+  cursor: pointer;
+}
 /* @end */
 
 /* @group Articles */
@@ -62,6 +73,15 @@ div.article div.footer {
   margin-top: 3ex;
   border-top: 2px solid grey;
   border-bottom: 2px solid grey;
+}
+
+.discussion {
+  cursor: pointer;
+  text-align: right;
+}
+
+.edit {
+  cursor: pointer;
 }
 /* @end */
 

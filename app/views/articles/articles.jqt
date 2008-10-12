@@ -42,6 +42,7 @@
           <span class="tag"><%= tag.name %></span>
         <% }); %>
       </div>
+      <div class="discussion">Discuss this article &raquo;</div>
     </div>
   </div>
 </script>
