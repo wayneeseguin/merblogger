@@ -12,7 +12,7 @@ class Article
   property :state,           String,   :length => 16  # we'll use state_machine on this
   property :parent_id,       Integer   # eg. 4 part series of related articles.    
   property :rating,          Integer   # how good of a Article the user thinks it is 1..10
-  property :publised_at,     DateTime  # Allow them to set publish date
+  property :published_at,    DateTime  # Allow them to set publish date
   property :markup,          String,   :length => 32
   property :raw,             Text
   property :html,            Text
@@ -58,12 +58,12 @@ class Article
       elsif markup == "plain"
         self.html = "<pre>#{@raw}</pre>"
       else
-        return [false, "No markup was specified."]
+        [false, "No markup was specified."]
       end
+      true
     rescue Exception => e
-      return [false, e.message]
+      [false, e.message]
     end
-    true
   end
 
   #############################################################################

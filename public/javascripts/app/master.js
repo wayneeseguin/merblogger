@@ -8,24 +8,33 @@ $(document).ready(function() {
 });
 
 function get_entities_for (owner_type, owner_id, entity_type, entity_id, callback) {
+  $.app[owner_type] = $.app[owner_type] || {};
+  $.app[owner_type][owner_id] = $.app[owner_type][owner_id] || {};
+  $.app[entity_type] = $.app[entity_type] || {};
+  
   url = "/"+owner_type+"/"+owner_id+"/"+entity_type+"/"
   if(entity_id) { url += entity_id; }
   $.getJSON(url, null, function(payload) {
-    $.app[owner_type] = $.app[owner_type] || {};
-    $.app[owner_type][owner_id] = $.app[owner_type][owner_id] || {};
     if(entity_id) {
       // Buffer explicitely
       $.app[entity_type][entity_id] = payload;
     } else {
-      $.app[owner_type][owner_id][entity_type] = payload;
+      $.each(payload, function(index,entity) {
+       $.app[entity_type][entity.id] = entity; 
+      });
+      $.app[owner_type][owner_id][entity_type] = payload
     }
+
     if(callback) { callback(owner_type,owner_id,entity_type,entity_id,payload); }
   });
 }
 
 function get_entities (entity_type, callback) { 
+  $.app[entity_type] = $.app[entity_type] || {};
   $.getJSON("/" + entity_type, null, function(payload) {
-    $.app[entity_type] = payload;
+    $.each(payload, function(index,entity) {
+     $.app[entity_type][entity.id] = entity; 
+    });
     if(callback) { callback(payload); }
   });
 }
@@ -67,12 +76,13 @@ function sort_by(list, field) {
   return sorted_list;
 }
 
-function find_by_id(list,field,value) {
-  result = {};
-  for(index in list) {
-    if(list[index][field] == value) {
-      result = list[index];
+function find(list,field,value) {
+  list = list || [];
+  item = null; // So that it's from the outer scope.
+  $.each(list, function(index,entity) {
+    if(entity && (entity[field] == value)) {
+      item = entity;
     }
-  }
-  return result;
+  });
+  return item;
 }

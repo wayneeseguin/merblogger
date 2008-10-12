@@ -1,5 +1,6 @@
 class Articles < Application
   provides :json
+  does_not_provide :html
 
   def index
     @articles = Article.all
@@ -13,43 +14,50 @@ class Articles < Application
   end
 
   def new
-    only_provides :html
     @article = Article.new
-    render
+    display @article
   end
 
   def edit
-    only_provides :html
     @article = Article.get(params[:id])
     raise NotFound unless @article
-    render
+    display @article
   end
 
   def create
     raise BadRequest, "No params passed to create a new object, check your new action view!" if params[:article].nil?
     @article = Article.new(params[:article])
     if @article.save
-      redirect url(:article, @article)
+      display @article
     else
-      render :new
+      display Hash.new(:status => "error", :errors => @article.errors.to_a)
     end
   end
 
   def update
     @article = Article.get(params[:id])
+    authors = params[:authors]
+    tags = params[:tags]
+
+    published_at = params[:article].delete(:published_at)
+    unless params[:published_at].blank?
+      params[:article][:published_at] = DateTime.parse(published_at)
+    end
+    
     raise NotFound unless @article
+    
     if @article.update_attributes(params[:article]) || !@article.dirty?
-      redirect url(:article, @article)
+      display @article
     else
       raise BadRequest
     end
   end
-
+  
   def destroy
     @article = Article.get(params[:id])
     raise NotFound unless @article
     if @article.destroy
-      redirect url(:articles)
+      display Hash.new(:status => "ok", :id => params[:id])
     else
       raise BadRequest
     end

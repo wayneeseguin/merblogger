@@ -6,7 +6,9 @@ Merb::Router.prepare do
       article.resources :comments
     end
   end
-
+  resources :articles
+  resources :comments
+  
   all_slices
 
   match('/').

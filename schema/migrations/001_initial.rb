@@ -18,7 +18,7 @@ migration(1, :initial) do
       column :state,        String, :size => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
-      column :publised_at,  DateTime  # Allow them to set publish date
+      column :published_at, DateTime  # Allow them to set publish date
       column :markup,       String, :size => 32
 
       column :raw,          Text

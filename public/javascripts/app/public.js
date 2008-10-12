@@ -1,11 +1,11 @@
 function load_ui () {
-  display();
-  special();
+  public();
+  context();
 }
 
-function special () { }
+function context () { }
 
-function display () {
+function public () {
   $("body").
     append($.templates.default_layout());
 
@@ -35,15 +35,15 @@ function blogs() {
 }
 
 function articles(owner_type,owner_id,entity_type,entity_id) {
-  owner = find_by_id($.app[owner_type],"id",owner_id);
-
+  owner = $.app[owner_type][owner_id];
+  
   header("Articles in "+owner.name);
   
   $("div#blogs").hide();
-
+  
   $("div#content").
   append($.templates.articles({
-    "blog_id": owner_id, "articles": $.app[owner_type][owner_id].articles
+    "blog_id": owner_id, "articles": owner.articles
     })
   );
   
@@ -62,23 +62,41 @@ function articles(owner_type,owner_id,entity_type,entity_id) {
   });
 }
 
-function article_edit(owner_type,owner_id,entity_type,article_id) {
-  if(article_id > 0) {
-    owner = find_by_id($.app[owner_type],owner_id);
-    article = find_by_id(owner.articles,article_id);
+function article_edit(owner_type,owner_id,entity_type,entity_id) {
+  if(entity_id != 0) {
+    entity = find($.app[entity_type]||[],"id",entity_id);
   } else {
-    article = {id: 0}
+    entity = {id: 0}
   }
   
-  $("div[article_id="+(article_id||0)+"]").empty().append(
-    $.templates.article_form(article)
+  $("div[article_id="+(entity_id||0)+"]").empty().append(
+    $.templates.article_form(entity)
   ).show();
-  $("form[]").ajaxForm();
+  
+  form = $("form[article_id="+(entity_id||0)+"]");
+  form.ajaxForm({ 
+      url: form.attr("action"), type: (entity.id == "0") ? "POST" : "PUT", dataType: "json", 
+      success: article_response, beforeSubmit: validate_article 
+    }
+  );
+}
+
+function validate_article () {
+}
+
+function article_response(response) {
+  $.app.articles[response.id] = response;
+  $("div[article_id="+(response.id||0)+"]").empty().append(
+    $.templates.article(response)
+  );
+  $("span.edit[article_id="+(response.id)+"]").click(function() {
+    article_edit(owner_type,owner_id,entity_type,$(this).attr("article_id"));
+  });
 }
 
 function comments(owner_type,owner_id,entity_type,entity_id) {
   $("div#articles").
-    append($.templates.articles({
+    append($.templates.comments({
       "blog_id": owner_id, "comments": $.app[owner_type][owner_id].comments
       })
     );

@@ -2,8 +2,8 @@
 <script type="text/x-jquery-template" title="articles">
 <div class="articles" blog_id="<%= self.blog_id %>">
 <%= partial("articles_menu", {location: "top"}) %>
-  <% self.articles.push({id: 0}); %>
-  <% $.each(self.articles || [], function(index, article) { %>
+
+  <% $.each((self.articles || []), function(index, article) { %>
   <%= partial("article", article) %>
   <% }); %>
 
@@ -64,7 +64,7 @@
 </script>
 
 <script type="text/x-jquery-template" title="article_form">
-<form action="/articles" method="article" class="article">
+<form article_id="<%= self.id || 0 %>" class="article" action="/articles<%= (self.id > 0) ? '/'+ self.id : '' %>" method="<%= (self.id == '0') ? "POST" : "PUT" %>">
   <div class="article" article_id="<%= self.id %>">
     <div class="header">
       <div class="menu"> </div>
@@ -76,12 +76,12 @@
       </div>
     </div>
     <div class="content">
-      <textarea name="article[html]"><%= self.html || "" %></textarea>
+      <textarea name="article[raw]"><%= self.raw || "" %></textarea>
     </div>
     <div class="footer">
       <span class="authors">
         By: 
-        <select name="author" multiple="multiple" name="article[authors][]">
+        <select multiple="multiple" name="authors[]">
           <% $.each($.authors || [], function (index, author) { %>
           <option value="<%= author.id %>"> <%= author.name %> </option>
           <% }); %>
