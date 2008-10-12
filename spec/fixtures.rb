@@ -67,7 +67,7 @@ User.fixture{{
 
 Blog.all.each do |blog|
   BlogArticle.create(:blog => blog, :article => Article.get(rand(10)))
-  blog.update_attributes(:owner_id => User.get(rand(5)+2).id)
+  blog.update_attributes(:owner_id => User.get(rand(5)+3).id)
 end
 
 Article.all.each do |article|

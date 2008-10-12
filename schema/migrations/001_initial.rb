@@ -76,6 +76,9 @@ migration(1, :initial) do
       column :login,            String, :size => 255
       column :crypted_password, String, :size => 50
       column :salt,             String, :size => 50
+      column :first_name,       String, :size => 64
+      column :last_name,        String, :size => 64
+      column :gravatar,         String, :size => 255
     end
 
     #

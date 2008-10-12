@@ -3,11 +3,12 @@ task :merb_env do
 end
 
 namespace :app do
-  desc "Load randomized test data."
-  task :load_test_data => :merb_env do
-    require Merb.root / "spec" / "fixtures"
+  namespace :generate do
+    desc "Load randomized test data."
+    task :data => :merb_env do
+      require Merb.root / "spec" / "fixtures"
+    end
   end
-  
   desc "Load admin & system users with appropriate roles."
   task :load_admin_user do
     Merb.start_environment :adapter => "runner", :environment => ENV["MERB_ENV"] || "development"
