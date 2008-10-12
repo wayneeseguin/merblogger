@@ -49,17 +49,25 @@ Article.fixture{{
 }}
 
 Blog.fixture{{
-   :name => /[:word:]/.generate[0...32],
-   :title =>  /[:sentence:]/.generate[0...128],
-   :tagline => /[:sentence:]/.generate[0...128]
+  :name => /[:word:]/.generate[0...32],
+  :title =>  /[:sentence:]/.generate[0...128],
+  :tagline => /[:sentence:]/.generate[0...128]
 }}
 
-3.of { Blog.generate.save }
+User.fixture{{
+  :login => /[:word:]@[:word:].com/.generate,
+  :password => (password = /[:word:]/.generate),
+  :password_confirmation => password
+}}
+
+3.of  { Blog.generate.save }
 10.of { Article.generate.save }
 30.of { Comment.generate.save }
+5.of  { User.generate.save }
 
 Blog.all.each do |blog|
   BlogArticle.create(:blog => blog, :article => Article.get(rand(10)))
+  blog.update_attributes(:owner_id => User.get(rand(5)+2).id)
 end
 
 Article.all.each do |article|

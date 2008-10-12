@@ -14,7 +14,7 @@ migration(1, :initial) do
       column :version,      Integer
       column :title,        String, :size => 255
       column :sub_title,    String, :size => 255
-      column :slug,         Slug, :size => 255 # Will store an SEO friendly slug
+      column :slug,         Slug,   :size => 255 # Will store an SEO friendly slug
       column :state,        String, :size => 16, :default => "draft" # we'll use state_machine on this
       column :parent_id,    Integer   # eg. 4 part series of related articles.    
       column :rating,       Integer   # how good of a Article the user thinks it is 1..10
@@ -41,7 +41,8 @@ migration(1, :initial) do
       column :name,        String,  :size => 32
       column :title,       String,  :size => 128
       column :tagline,     String,  :size => 128
-      column :logo_id,     Integer 
+      column :logo_id,     Integer
+      column :owner_id,    Integer
       column :created_at,  DateTime
       column :updated_at,  DateTime
     end

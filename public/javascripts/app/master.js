@@ -53,3 +53,21 @@ function log(message, type) {
     console[type](message);
   }
 }
+
+function sort_by(list, field) {
+  sorted_list = [];
+  $.each(list, function(index, item) {
+    sorted_list[item[field]] = item;
+  });
+  return sorted_list;
+}
+
+function find_by_id(list,field,value) {
+  result = {};
+  for(index in list) {
+    if(list[index][field] == value) {
+      result = list[index];
+    }
+  }
+  return result;
+}

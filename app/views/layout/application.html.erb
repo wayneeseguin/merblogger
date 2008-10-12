@@ -5,14 +5,15 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/merblogger.css" type="text/css" media="screen" charset="utf-8" />
 
     <!-- TODO: Add deployment hook to compress .js files to a single minified packed .js file, just before launch. -->
     <%= javascripts_for(:jquery, :app) %>
     <!-- <%#= buffer_js_for(:authors) %> -->
 
     <%= templates_for(:layout,:blogs,:articles,:comments,:authors) %>
-    <% if current_user %><%= templates_for(:user) %><% end%>
-    <% if current_user && current_user.admin? %><%= templates_for(:admin) %><% end %>
+    <% if current_user %><script type="text/javascript">$.app.user=true</script><%= templates_for(:user) %><% end%>
+    <% if current_user && current_user.admin? %><script type="text/javascript">$.app.admin=true</script><%= templates_for(:admin) %><% end %>
   </head>
   <body>
   </body>

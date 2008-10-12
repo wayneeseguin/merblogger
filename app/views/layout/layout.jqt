@@ -4,6 +4,10 @@
   <div id="footer"> </div>
 </script>
 
+<script type="text/x-jquery-template" title="header">
+  <h2><%= self.title %></h2>
+</script>
+
 <script type="text/x-jquery-template" title="footnote">
   <div class="copyright center">&copy;2008 - <%= self.date.getFullYear() %> MerBlogger :)</div>
 </script>

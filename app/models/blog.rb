@@ -11,4 +11,6 @@ class Blog
 
    has n, :blog_articles # Each co-author can have the article in their blog!
    has n, :articles, :through => :blog_articles
+   
+   belongs_to :owner, :class_name => "User", :child_key => [:owner_id]
 end

@@ -1,9 +1,11 @@
 
 <script type="text/x-jquery-template" title="articles">
 <div class="articles" blog_id="<%= self.blog_id %>">
+  <div class="menu top"> <span class="back"> &laquo; blogs</div>
 <% $.each(self.articles, function(index, article) { %>
   <%= partial("article", article) %>
 <% }); %>
+  <div class="menu bottom"> </div>
 </div>
 </script>
 
@@ -24,21 +26,21 @@
     </div>
 
     <div class="footer">
-      <div class="authors">
+      <span class="authors">
         By: 
-        <select name="author">
-          <option value="2" selected="selected">Wayne E. Seguin</option>
-        </select>
-      </div>
+        <% $.each(self.authors || [], function(index, author) { %>
+          <span class="author"><%= author.name %></span>
+        <% }); %>
+      </span>
+      <span class="published_at">
+      Published on <%= self.published_at %>
+      </span>
+      <span class="edit link" article_id="<%= self.id %>">[edit]</span>
       <div class="tags">
-        Tags: <%= self.tags %>
-        <div name="tags" value=""/>
-      </div>
-      <div class="published_at">
-      Published on<%= self.published_at %>
-      </div>
-      <div id="actions">
-        <input type="submit" class="submit" value="Save"/>
+        Tags:
+        <% $.each(self.tags || [], function(index, tag) { %>
+          <span class="tag"><%= tag.name %></span>
+        <% }); %>
       </div>
     </div>
   </div>
@@ -48,7 +50,7 @@
 <form action="/articles" method="article" class="article">
   <div class="article notebook" article_id="<%= self.id %>">
     <div class="header">
-      <div class="menu">Article</div>
+      <div class="menu"> </div>
       <div class="title">
         <input class="title" name="article[title]" value="<%= self.title || "" %>"/>
       </div>
