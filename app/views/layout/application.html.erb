@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" media="screen" charset="utf-8" />
 
     <!-- TODO: Add deployment hook to compress .js files to a single minified packed .js file, just before launch. -->
-    <%= javascripts_for(:jquery) %>
-    <%= javascripts_for(:app) %>
+    <%= javascripts_for(:jquery, :app) %>
     <!-- <%#= buffer_js_for(:authors) %> -->
-    <%= templates_for(:layout, :blogs, :articles, :comments, :authors) %>
+
+    <%= templates_for(:layout,:blogs,:articles,:comments,:authors) %>
+    <% if current_user %><%= templates_for(:user) %><% end%>
+    <% if current_user && current_user.admin? %><%= templates_for(:admin) %><% end %>
   </head>
   <body>
   </body>

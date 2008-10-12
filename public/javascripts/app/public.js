@@ -1,4 +1,8 @@
 function load_ui () {
+  display();
+}
+
+function display () {
   $("body").
     html($.templates.default_layout());
 

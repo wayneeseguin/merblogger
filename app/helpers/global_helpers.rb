@@ -1,38 +1,36 @@
 module Merb
 
   module GlobalHelpers
-
-    @@views = {
-      :jquery => [
-        "core",
-        "json",
-        "metadata",
-        "ui",
-        "form",
-        "templater",
-        "autocomplete",
-        "cookie",
-        "history",
-        "cookiejar",
-        "servercookiejar"
-      ],
-      :app => [
-        "master",
-        "public"
-      ]
+    
+    def current_user
+      @current_user ||= User.get(session[:user_id])
+    end
+    
+    @@config = {
+      :javascripts => {
+          :jquery => [
+            "core", "json", "metadata", "ui", "form", "templater",
+            "autocomplete", "cookie", "history", "cookiejar", "servercookiejar"
+          ],
+          :app => [:master,:public],
+          :user => [:user],
+          :admin => [:admin]
+        }
     }
-
+    
     # helpers defined here available to all views.  
-    def javascripts_for(view = :default)
-      @@views[view].collect do |file|
-        "<script type=\"text/javascript\" src=\"/javascripts/#{view}/#{file}.js\"></script>"
+    def javascripts_for(*namespaces)
+      namespaces.to_a.collect do |namespace|
+        @@config[:javascripts][namespace].collect do |file|
+          "<script type=\"text/javascript\" src=\"/javascripts/#{namespace}/#{file}.js\"></script>"
+        end.join("\n")
       end.join("\n")
     end
 
     def templates_for(*namespaces)
       namespaces.to_a.collect do |namespace|
-        Dir["#{Merb.root}/app/views/#{namespace}/*.jqt"].map { |file| File.read(file) }.join("\n")
-      end.join("\n")
+        File.read("#{Merb.root}/app/views/#{namespace}/#{namespace}#{current_user ? '*' : ''}.jqt")
+      end.join
     end
     
     # allows us to load up the layout with some pseduo-constant data, like queues, ticket statuses, etc...
