@@ -1,4 +1,3 @@
-function set(object) { object = object || {}; }
 $.app = $.app || {}; // Data buffering object, see application layout for pre-population
 
 $.metadata.setType("attr", "metadata");
@@ -29,19 +28,19 @@ function get_entities (options, callback) {
   url = '/';
   if(options.owner_class) { 
     url += options.owner_class + '/';
-    set($.app[options.owner_class]);
+    $.app[options.owner_class] = $.app[options.owner_class] || {};
     if(options.owner_id) {
       url += options.owner_id + '/';
-      set($.app[options.owner_class][options.owner_id]);
+      $.app[options.owner_class][options.owner_id]= $.app[options.owner_class][options.owner_id] || {};
     }
   }
 
   if(options.entity_class) {
     url += options.entity_class + '/';
-    set($.app[options.entity_class]);
+    $.app[options.entity_class] = $.app[options.entity_class] || {};
     if(options.entity_id) {
       url += options.entity_id + '/';
-      set($.app[options.entity_class][options.entity_id]);
+      $.app[options.entity_class][options.entity_id] = $.app[options.entity_class][options.entity_id] || {};
     }
   } else {
     url = options; // If no entity_class is specified options should be a string.

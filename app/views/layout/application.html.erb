@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/merblogger.css" type="text/css" media="screen" charset="utf-8" />
 
     <!-- TODO: Add deployment hook to compress .js files to a single minified packed .js file, just before launch. -->
-    <%= javascripts_for(:jquery, :app, :lib) %>
+    <%= javascripts_for(:jquery, :lib, :app) %>
     <!-- <%#= buffer_js_for(:authors) %> -->
 
     <%= templates_for(:layout,:blogs,:articles,:comments,:authors) %>

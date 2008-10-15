@@ -13,7 +13,7 @@ module Merb
             "autocomplete", "cookie", "history", "cookiejar", "servercookiejar"
           ],
           :lib => [:inheritance],
-          :app => [:master,:public],
+          :app => [:master,:public,:entities],
           :user => [:user],
           :admin => [:admin]
         }

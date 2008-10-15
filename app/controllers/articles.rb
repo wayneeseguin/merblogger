@@ -3,7 +3,6 @@ class Articles < Application
   does_not_provide :html
 
   def index
-    require "ruby-debug" ; debugger
     if params[:blog_id]
       @blog = Blog.get(params[:blog_id])
       @articles = @blog.articles

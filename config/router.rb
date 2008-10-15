@@ -15,6 +15,6 @@ Merb::Router.prepare do
     to(:controller => "blogs", :action => "index")
 
   slice(:MerbAuth, :name_prefix => nil, :path_prefix => nil)
-  merb_auth_routes(:name_prefix => nil, :path_prefix => "")
+#  merb_auth_routes(:name_prefix => nil, :path_prefix => "")
     
 end
