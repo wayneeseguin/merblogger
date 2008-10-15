@@ -61,12 +61,22 @@ User.fixture{{
 }}
 
 3.of  { Blog.generate.save }
-10.of { Article.generate.save }
+20.of { Article.generate.save }
 30.of { Comment.generate.save }
 5.of  { User.generate.save }
 
-Blog.all.each do |blog|
-  BlogArticle.create(:blog => blog, :article => Article.get(rand(10)))
+blogs = Blog.all
+articles = Article.all
+
+articles.each do |article|
+  blog = blogs[rand(3)]
+  BlogArticle.create(:blog => blog, :article => article)
+end
+
+blogs.each do |blog|
+  #(index+3).times do
+  #  BlogArticle.create(:blog => blog, :article => articles.pop)
+  #end
   blog.update_attributes(:owner_id => User.get(rand(5)+3).id)
 end
 

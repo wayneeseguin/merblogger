@@ -15,6 +15,10 @@ function public () {
   
   $("div#footer").
     append($.templates.footnote({date: new Date()}));
+  
+  $("div#edit_dialog").dialog(
+    {autoOpen: false,modal: true, overlay: { opacity: 0.5, background: "black" }, height: "auto", width: "auto"}
+  );
 }
 
 function header(title) {
@@ -52,31 +56,34 @@ function articles(owner_type,owner_id,entity_type,entity_id) {
     $("div#blogs").show();
     header("Blogs");
   });
-
-  $("span.edit").click(function() {
-    article_edit(owner_type,owner_id,entity_type,$(this).attr("article_id"));
+  
+  $.each(owner.articles || [],function(index,article) {
+    $("span.edit[article_id="+article.id+"]").click(function() {
+      article_edit(article.id);
+    });
   });
   
-  $("span.new").click(function() {
-    article_edit(owner_type,owner_id,entity_type,0);
+  $("div.article span.new").click(function() {
+    article_edit(0);
   });
 }
 
-function article_edit(owner_type,owner_id,entity_type,entity_id) {
+function article_edit(entity_id) {
   if(entity_id != 0) {
-    entity = find($.app[entity_type]||[],"id",entity_id);
+    entity = find($.app.articles||[],"id",entity_id);
   } else {
     entity = {id: 0}
   }
   
-  $("div[article_id="+(entity_id||0)+"]").empty().append(
+	$("span.ui-dialog-title").html("Editing Article");
+  $("div#edit_dialog").empty().append(
     $.templates.article_form(entity)
-  ).show();
-  
+  ).show().dialog("open");
+
   form = $("form[article_id="+(entity_id||0)+"]");
   form.ajaxForm({ 
-      url: form.attr("action"), type: (entity.id == "0") ? "POST" : "PUT", dataType: "json", 
-      success: article_response, beforeSubmit: validate_article 
+      url: form.attr("action"), type: (entity.id == "0") ? "POST" : "PUT", 
+      dataType: "json", success: article_response, beforeSubmit: validate_article 
     }
   );
 }
@@ -89,8 +96,9 @@ function article_response(response) {
   $("div[article_id="+(response.id||0)+"]").empty().append(
     $.templates.article(response)
   );
+  // TODO: add owner_id...
   $("span.edit[article_id="+(response.id)+"]").click(function() {
-    article_edit(owner_type,owner_id,entity_type,$(this).attr("article_id"));
+    article_edit(response.id);
   });
 }
 

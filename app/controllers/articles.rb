@@ -3,8 +3,14 @@ class Articles < Application
   does_not_provide :html
 
   def index
-    @articles = Article.all
-    display @articles
+    require "ruby-debug" ; debugger
+    if params[:blog_id]
+      @blog = Blog.get(params[:blog_id])
+      @articles = @blog.articles
+    else
+      @articles = Article.all
+    end
+    display @articles.map{|article|article.to_hash}
   end
 
   def show

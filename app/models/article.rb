@@ -39,6 +39,13 @@ class Article
   has n, :article_authors
   has n, :authors, :through => :article_authors
 
+  def to_hash
+    self.attributes.merge(
+    :authors => self.authors.map{|a| Hash.new(:name => a.login, :id => a.id)},
+    :blogs => self.blogs.map{|b| Hash.new(:name => b.name, b.id)}
+    )
+  end
+
   #############################################################################
   # Validations
   #############################################################################

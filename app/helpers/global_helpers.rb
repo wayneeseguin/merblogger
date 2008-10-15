@@ -12,6 +12,7 @@ module Merb
             "core", "json", "metadata", "ui", "form", "templater",
             "autocomplete", "cookie", "history", "cookiejar", "servercookiejar"
           ],
+          :lib => [:inheritance],
           :app => [:master,:public],
           :user => [:user],
           :admin => [:admin]
