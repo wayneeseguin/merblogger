@@ -42,7 +42,7 @@ class Article
   def to_hash
     self.attributes.merge(
     :authors => self.authors.map{|a| Hash.new(:name => a.login, :id => a.id)},
-    :blogs => self.blogs.map{|b| Hash.new(:name => b.name, b.id)}
+    :blogs => self.blogs.map{|b| Hash.new(:name => b.name, :id => b.id)}
     )
   end
 

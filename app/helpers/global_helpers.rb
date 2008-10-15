@@ -21,15 +21,15 @@ module Merb
     
     # helpers defined here available to all views.  
     def javascripts_for(*namespaces)
-      namespaces.to_a.collect do |namespace|
-        @@config[:javascripts][namespace].collect do |file|
+      namespaces.to_a.map do |namespace|
+        @@config[:javascripts][namespace].to_a.map do |file|
           "<script type=\"text/javascript\" src=\"/javascripts/#{namespace}/#{file}.js\"></script>"
         end.join("\n")
       end.join("\n")
     end
 
     def templates_for(*namespaces)
-      namespaces.to_a.collect do |namespace|
+      namespaces.to_a.map do |namespace|
         File.read("#{Merb.root}/app/views/#{namespace}/#{namespace}#{current_user ? '*' : ''}.jqt")
       end.join
     end

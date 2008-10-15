@@ -1,11 +1,7 @@
+function set(object) { object = object || {}; }
 $.app = $.app || {}; // Data buffering object, see application layout for pre-population
 
 $.metadata.setType("attr", "metadata");
-
-$(document).ready(function() { 
-  $.loadTemplates();
-  load_ui(); // Load all dashboard UI features
-});
 
 function get_entities_for (owner_type, owner_id, entity_type, entity_id, callback) {
   $.app[owner_type] = $.app[owner_type] || {};
@@ -52,7 +48,7 @@ function get_entities (options, callback) {
   }
   
   $.getJSON(url, null, function(response) {
-    $.app[entity_class] = response;
+    $.app[options.entity_class] = response;
     if(callback) { callback(response); }
   });
 }
@@ -104,3 +100,9 @@ function find(list,field,value) {
   });
   return item;
 }
+
+$(document).ready(function() { 
+  $.loadTemplates();
+  load_ui(); // Load all dashboard UI features
+});
+
