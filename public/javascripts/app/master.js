@@ -29,13 +29,31 @@ function get_entities_for (owner_type, owner_id, entity_type, entity_id, callbac
   });
 }
 
-function get_entities (entity_type, callback) { 
-  $.app[entity_type] = $.app[entity_type] || {};
-  $.getJSON("/" + entity_type, null, function(payload) {
-    $.each(payload, function(index,entity) {
-     $.app[entity_type][entity.id] = entity; 
-    });
-    if(callback) { callback(payload); }
+function get_entities (options, callback) {  
+  url = '/';
+  if(options.owner_class) { 
+    url += options.owner_class + '/';
+    set($.app[options.owner_class]);
+    if(options.owner_id) {
+      url += options.owner_id + '/';
+      set($.app[options.owner_class][options.owner_id]);
+    }
+  }
+
+  if(options.entity_class) {
+    url += options.entity_class + '/';
+    set($.app[options.entity_class]);
+    if(options.entity_id) {
+      url += options.entity_id + '/';
+      set($.app[options.entity_class][options.entity_id]);
+    }
+  } else {
+    url = options; // If no entity_class is specified options should be a string.
+  }
+  
+  $.getJSON(url, null, function(response) {
+    $.app[entity_class] = response;
+    if(callback) { callback(response); }
   });
 }
 

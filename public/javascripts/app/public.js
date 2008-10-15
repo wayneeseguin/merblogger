@@ -11,7 +11,7 @@ function public () {
 
   header("MerBlogger");
   
-  get_entities("blogs", blogs);
+  get_entities({entity_class:"blogs"}, blogs);
   
   $("div#footer").
     append($.templates.footnote({date: new Date()}));
