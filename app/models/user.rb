@@ -11,6 +11,9 @@ class User
   has n, :user_roles
   has n, :roles, :through => :user_roles
 
+  attr_accessor :password
+  attr_accessor :password_confirmation
+
   def role_names; roles.map{|r| r.name}; end
 
   def permissions; roles.inject([]){|a,r| a + r.permissions}; end

@@ -81,5 +81,5 @@ blogs.each do |blog|
 end
 
 Article.all.each do |article|
-  Comment.get(rand(30)).article = article
+  Comment.get(rand(30)+1).article = article
 end
