@@ -63,16 +63,34 @@
  */
 Model = Class.extend({
   initialize: function(id) {
-    this._attributes = {id: id};
     this.id = id;
+
+    //Private Members
+    var attributes = {id: id};
+    var load = function(data) {
+      attributes = data;
+      for(key in data) {
+        // TODO: Skip if is public API method such as: initialize, parent
+        if(key != "initialize" && key != "parent") {
+          this[key] = data[key];
+        }
+      }
+      
+      if(this._after_load) {
+        this._after_load();
+        this._after_load = null;
+      }
+    }
+
     this._fetch();
+
   },
 
   _to_s: function() { return this.id; },
 
   _get_attribute: function(attr) {
     refresh = arguments[1] 
-    return this._attributes[attr]
+    return attributes[attr]
   },
   
   _update_attributes: function(hash) {
@@ -93,11 +111,11 @@ Model = Class.extend({
   
   _set_attribute: function(key,value) {
     // Set the value and store the key in the "dirty list"
-    if (this._attributes[key] == undefined) {
+    if (attributes[key] == undefined) {
       // raise error
     }
-    this._attributes[key] = value;
-    return this._attributes[key];
+    attributes[key] = value;
+    return attributes[key];
   },
   
   _url: function() {
@@ -127,19 +145,19 @@ Model = Class.extend({
   _fetch: function (callback) {
     if (callback) {
       this._after_load = callback;
-      $.getJSON(this._url(), null, this._load);
+      $.getJSON(this._url(), null, load);
     } else {
       // get the data synchronously and return
       this._after_load = null;
       log(this._url());
       response = $.ajax({ type: "GET", url: this._url(), dataType: "json", async: false });
-      this._load(eval("(" + response.responseText + ")"));
+      load(eval("(" + response.responseText + ")"));
     }
   },
   
   _reload: function() {
     // Go through and unset the existing data.
-    data = this._attributes;
+    data = attributes;
     for(key in data) {
       if(key != "initialize" && key != "parent") {
         this[key] = null;
@@ -149,20 +167,6 @@ Model = Class.extend({
     this.fetch();
   },
 
-  _load: function(data) {
-    this._attributes = data;
-    for(key in data) {
-      // TODO: Skip if is public API method such as: initialize, parent
-      if(key != "initialize" && key != "parent") {
-        this[key] = data[key];
-      }
-    }
-    
-    if(this._after_load) {
-      this._after_load();
-      this._after_load = null;
-    }
-  },
   
   _view: function(options) {
     return $.templates[self._resource + "_view"](self._attributes);
