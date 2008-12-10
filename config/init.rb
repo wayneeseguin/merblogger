@@ -5,12 +5,15 @@ require "config/dependencies.rb"
 use_orm :datamapper
 use_test :rspec
 use_template_engine :erb
+
+Merb::Plugins.config[:"merb-auth"][:login_param] = :email
  
 Merb::Config.use do |config|
   config[:use_mutex] = false
   config[:session_store] = "cookie"  # can also be "memory", "memcache", "container", "datamapper
   config[:session_secret_key]  = "459ae1cfccd06dc1facd90d257d02c6bb46365a6"
   config[:session_id_key] = "_merblogger" 
+  config[:name] = "merblogger"
 end
  
 Merb::BootLoader.before_app_loads do

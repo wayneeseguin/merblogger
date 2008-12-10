@@ -1,9 +1,8 @@
 class User
-  Merb::Authentication.user_class = self
   include DataMapper::Resource
   
   property :id,               Serial, :key => true
-  property :login,            String
+  property :email,            String
   property :crypted_password, String
   property :salt,             String
   property :gravatar,         String
@@ -19,5 +18,5 @@ class User
   def permissions; roles.inject([]){|a,r| a + r.permissions}; end
 
   def permission_names; permissions.map{|p| p.name}; end
-
+  
 end
