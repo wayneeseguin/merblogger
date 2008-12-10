@@ -6,6 +6,7 @@ Merb::Router.prepare do
       article.resources :comments
     end
   end
+
   resources :articles
   resources :comments
   
@@ -14,7 +15,5 @@ Merb::Router.prepare do
   match('/').
     to(:controller => "blogs", :action => "index")
 
-  slice(:MerbAuth, :name_prefix => nil, :path_prefix => nil)
-#  merb_auth_routes(:name_prefix => nil, :path_prefix => "")
-    
+  slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
 end

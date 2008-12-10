@@ -4,8 +4,6 @@ tmp/*
 TAGS
 *~
 .#*
-*.swp
-config/database.yml
 schema/schema.rb
 schema/*_structure.sql
 schema/*.sqlite3
@@ -18,3 +16,4 @@ src/*
 .hgignore
 .hg/*
 .svn/*
+config/database.yml
