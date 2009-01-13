@@ -1,4 +1,3 @@
-Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
 
   resources :blogs do |blog|
