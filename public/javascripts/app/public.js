@@ -109,3 +109,60 @@ function comments(owner_type,owner_id,entity_type,entity_id) {
       })
     );
 }
+
+/*
+ * Models
+ *
+ */
+
+$.loadModels = function() {
+  /*
+   * Define your application's models below.
+   */
+  Blog = Class.extend(Model, {  
+    initialize: function(id) {
+    log("blog initialize");
+      this._resource = "blogs";
+      this.parent(id);
+    },
+  
+    _to_s: function() {
+      //return this.parent() + " works in " + this.dept;
+      return this.name;
+    }
+  });
+  
+  Article = Class.extend(Model, {
+    initialize: function(id) {
+      this._resource = "articles"
+      this.parent(id);
+    },
+  
+    _to_s: function() { return this.title; }
+  });
+  
+  
+  Comment = Class.extend(Model, {
+    initialize: function(id) {
+      this._resource = "comments"
+      this.parent(id);
+    },
+  
+    _to_s: function() { return this.title; }
+  });
+  
+  Author = Class.extend(Model, {
+    initialize: function(id) {
+      this._resource = "authors"
+      this.parent(id);
+    },
+  
+    _to_s: function() { return this.first_name+' '+this.last_name; }
+  });
+}
+
+//b = new Blog(1);
+//b._attributes["name"];
+//b._get_attribute("name");
+//b._get_name();
+

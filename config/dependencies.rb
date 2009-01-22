@@ -12,12 +12,12 @@ dependency "textpow",      :require_as => nil
 dependency "ultraviolet",  :require_as => nil
 dependency "hpricot",      ">=0.6.164"
 
-merb_version = "=1.0.7.1"
-dm_version   = "=0.9.9"
+merb_version = "=1.0.8.1"
+dm_version   = "=0.9.10"
 
-dependency "data_objects", "=0.9.10.1"
-dependency "do_postgres",  "=0.9.10.1"
-dependency "do_mysql",     "=0.9.10.1"
+dependency "data_objects", "=0.9.11"
+dependency "do_postgres",  "=0.9.11"
+dependency "do_mysql",     "=0.9.11"
 
 dependency "dm-core",                  dm_version, :require_as => "dm-core"
 dependency "dm-validations",           dm_version, :require_as => "dm-validations"

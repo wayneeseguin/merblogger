@@ -1,4 +1,5 @@
 class Blogs < Application
+
   provides :json
 
   def index
@@ -6,8 +7,8 @@ class Blogs < Application
     display @blogs
   end
 
-  def show
-    @blog = Blog.get(params[:id])
+  def show(id)
+    @blog = Blog.get(id)
     raise NotFound unless @blog
     display @blog
   end
@@ -18,16 +19,16 @@ class Blogs < Application
     render
   end
 
-  def edit
+  def edit(id)
     only_provides :html
-    @blog = Blog.get(params[:id])
+    @blog = Blog.get(id)
     raise NotFound unless @blog
     render
   end
 
-  def create
+  def create(blog)
     raise BadRequest, "No params passed to create a new object, check your new action view!" if params[:blog].nil?
-    @blog = Blog.new(params[:blog])
+    @blog = Blog.new(blog)
     if @blog.save
       redirect url(:blog, @blog)
     else
@@ -35,8 +36,8 @@ class Blogs < Application
     end
   end
 
-  def update
-    @blog = Blog.get(params[:id])
+  def update(id)
+    @blog = Blog.get(id)
     raise NotFound unless @blog
     if @blog.update_attributes(params[:blog]) || !@blog.dirty?
       redirect url(:blog, @blog)
@@ -45,8 +46,8 @@ class Blogs < Application
     end
   end
 
-  def destroy
-    @blog = Blog.get(params[:id])
+  def destroy(id)
+    @blog = Blog.get(id)
     raise NotFound unless @blog
     if @blog.destroy
       redirect url(:blogs)
@@ -56,3 +57,4 @@ class Blogs < Application
   end
 
 end # Blogs
+

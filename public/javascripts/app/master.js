@@ -78,7 +78,7 @@ function log(message, type) {
   if(type == null) { type="log" }
   if(typeof console != "undefined") {
     console[type](message);
-  }
+  } 
 }
 
 function sort_by(list, field) {
@@ -101,6 +101,7 @@ function find(list,field,value) {
 }
 
 $(document).ready(function() { 
+  $.loadModels();
   $.loadTemplates();
   load_ui(); // Load all dashboard UI features
 });
