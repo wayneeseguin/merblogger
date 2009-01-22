@@ -1,4 +1,5 @@
-function load_ui () {
+function load_ui () 
+{
   public();
   context();
 }
@@ -6,16 +7,16 @@ function load_ui () {
 function context () { }
 
 function public () {
-  $("body").
+  $("body").empty().
     append($.templates.default_layout());
 
   header("MerBlogger");
-  
+
   get_entities({entity_class:"blogs"}, blogs);
-  
+
   $("div#footer").
     append($.templates.footnote({date: new Date()}));
-  
+
   $("div#edit_dialog").dialog(
     {autoOpen: false,modal: true, overlay: { opacity: 0.5, background: "black" }, height: "auto", width: "auto"}
   );
@@ -30,7 +31,7 @@ function header(title) {
 function blogs() {
   header("Blogs");
 
-  $("div#content").
+  $("div#content").empty().
     append($.templates.blogs($.app.blogs));
 
   $("div#content div#blogs span.blog").click(function() {
@@ -39,30 +40,25 @@ function blogs() {
 }
 
 function articles(owner_type,owner_id,entity_type,entity_id) {
-  owner = $.app[owner_type][owner_id];
-  
-  header("Articles in "+owner.name);
-  
-  $("div#blogs").hide();
-  
-  $("div#content").
-  append($.templates.articles({
-    "blog_id": owner_id, "articles": owner.articles
-    })
-  );
-  
+  $.app.owner_type = owner_type;
+  $.app.owner_id = owner_id;
+
+  $.app.owner = $.app[owner_type][owner_id];
+
+  header("Articles in "+$.app.owner.name);
+
+  $("div#content").empty().append($.templates.articles($.app.owner.articles));
+
   $("div.articles div.menu span.back").click(function() {
-    $("div.articles").hide();
-    $("div#blogs").show();
-    header("Blogs");
+    blogs();
   });
-  
-  $.each(owner.articles || [],function(index,article) {
-    $("span.edit[article_id="+article.id+"]").click(function() {
-      article_edit(article.id);
+
+  $.each($.app.owner.articles || [],function(index,article) {
+    $("span.view[article_id="+article.id+"]").click(function() {
+      article_view(article.id);
     });
   });
-  
+
   $("div.article span.new").click(function() {
     article_edit(0);
   });
@@ -74,11 +70,12 @@ function article_edit(entity_id) {
   } else {
     entity = {id: 0}
   }
-  
-	$("span.ui-dialog-title").html("Editing Article");
-  $("div#edit_dialog").empty().append(
-    $.templates.article_form(entity)
-  ).show().dialog("open");
+
+  header("Editing an article");
+
+  $("div#content").empty().append(
+    $.templates.articles_form(entity)
+  );
 
   form = $("form[article_id="+(entity_id||0)+"]");
   form.ajaxForm({ 
@@ -86,7 +83,32 @@ function article_edit(entity_id) {
       dataType: "json", success: article_response, beforeSubmit: validate_article 
     }
   );
+
+  $("input.cancel").click(function() {
+    articles($.app.owner_type, $.app.owner_id);
+  });
 }
+
+function article_view(entity_id) {
+  header("Viewing an article");
+
+  if($.app.articles[entity_id]) {
+    var article = $.app.articles[entity_id];
+  } else {
+    var article = new Article(entity_id);
+  }
+
+  $("div#content").empty().append(article._view());
+
+  $("span.edit[article_id="+article.id+"]").click(function() {
+    article_edit(article.id);
+  });
+
+  $("span.back").click(function() {
+    articles($.app.owner_type, $.app.owner_id);
+  });
+}
+
 
 function validate_article () {
 }
@@ -94,7 +116,7 @@ function validate_article () {
 function article_response(response) {
   $.app.articles[response.id] = response;
   $("div[article_id="+(response.id||0)+"]").empty().append(
-    $.templates.article(response)
+    $.templates.articles(response)
   );
   // TODO: add owner_id...
   $("span.edit[article_id="+(response.id)+"]").click(function() {
@@ -106,8 +128,8 @@ function comments(owner_type,owner_id,entity_type,entity_id) {
   $("div#articles").
     append($.templates.comments({
       "blog_id": owner_id, "comments": $.app[owner_type][owner_id].comments
-      })
-    );
+    })
+  );
 }
 
 /*

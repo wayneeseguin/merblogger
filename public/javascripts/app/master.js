@@ -47,7 +47,9 @@ function get_entities (options, callback) {
   }
   
   $.getJSON(url, null, function(response) {
-    $.app[options.entity_class] = response;
+    $.each(response || [], function(index,entity) {
+      $.app[options.entity_class][entity.id] = entity;
+    });
     if(callback) { callback(response); }
   });
 }

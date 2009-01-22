@@ -1,9 +1,8 @@
-
 <script type="text/x-jquery-template" title="articles">
-<div class="articles" blog_id="<%= self.blog_id %>">
-<%= partial("articles_menu", {location: "top"}) %>
+<div class="articles" blog_id="<%= $.app.owner_id %>">
+  <%= partial("articles_menu", {location: "top"}) %>
 
-  <% $.each((self.articles || []), function(index, article) { %>
+  <% $.each((self || []), function(index, article) { %>
   <div class="article" article_id="<%= article.id %>">
   <%= partial("article", article) %>
   </div>
@@ -12,7 +11,7 @@
   <%= partial("article", {id: 0}) %>
   </div>
 
-<%= partial("articles_menu", {location: "bottom"}) %>
+  <%= partial("articles_menu", {location: "bottom"}) %>
 </div>
 </script>
 
@@ -25,57 +24,57 @@
 </script>
 
 <script type="text/x-jquery-template" title="article">
-    <div class="header">
-      <div class="menu"> </div>
-      <div class="title">
-        <%= self.title %>
-      </div>
-     <% if(self.sub_title) { %>
+  <div class="header">
+    <div class="menu"> </div>
+    <div class="title">
+      <%= self.title %>
+    </div>
+    <% if(self.sub_title) { %>
       <div class="sub_title">
         <%= self.sub_title %>
       </div>
       <% } %>
-    </div>
+  </div>
 
-    <div class="body">
-      <%= self.html || "" %>
-    </div>
+  <div class="body">
+    <%= self.html || "" %>
+  </div>
 
-    <div class="footer">
-    <span class="edit link" article_id="<%= self.id %>">[edit]</span>
+  <div class="footer">
+    <span class="view link" article_id="<%= self.id %>">[view]</span>
     &laquo;&raquo;
-      <span class="authors">
-        By: 
-        <% $.each(self.authors || [], function(index, author) { %>
-          <span class="author"><%= author.name %></span>
+    <span class="authors">
+      By: 
+      <% $.each(self.authors || [], function(index, author) { %>
+        <span class="author"><%= author.name %></span>
         <% }); %>
-      </span>
-      &laquo;&raquo;
-      <span class="published_at">
+    </span>
+    &laquo;&raquo;
+    <span class="published_at">
       Published on <%= self.published_at %>
-      </span>
-      &laquo;&raquo;
-      <span class="tags">
-        Tags:
-        <% $.each(self.tags || [], function(index, tag) { %>
-          <span class="tag"><%= tag.name %></span>
+    </span>
+    &laquo;&raquo;
+    <span class="tags">
+      Tags:
+      <% $.each(self.tags || [], function(index, tag) { %>
+        <span class="tag"><%= tag.name %></span>
         <% }); %>
-      </span>
-      &laquo;&raquo;
-      <span class="discussion">Discussions</span>
-    </div>
+    </span>
+    &laquo;&raquo;
+    <span class="discussion">Discussions</span>
+  </div>
 </script>
 
-<script type="text/x-jquery-template" title="article_form">
-<form article_id="<%= self.id || 0 %>" class="article" action="/articles<%= (self.id > 0) ? '/'+ self.id : '' %>" method="<%= (self.id == '0') ? "POST" : "PUT" %>">
-  <div class="header">
-    <div class="menu"> </div>
-    <div class="title">
-      <label>Title:</label><input class="title" name="article[title]" value="<%= self.title || "" %>"/>
-    </div>
-    <div class="sub_title">
-      <label>Sub Title:</label><input class="sub_title" name="article[sub_title]" value="<%= self.sub_title || "" %>"/>
-    </div>
+<script type="text/x-jquery-template" title="articles_form">
+  <form article_id="<%= self.id || 0 %>" class="article" action="/articles<%= (self.id > 0) ? '/'+ self.id : '' %>" method="<%= (self.id == '0') ? "POST" : "PUT" %>">
+    <div class="header">
+      <div class="menu"> </div>
+      <div class="title">
+        <label>Title:</label><input class="title" name="article[title]" value="<%= self.title || "" %>"/>
+      </div>
+      <div class="sub_title">
+        <label>Sub Title:</label><input class="sub_title" name="article[sub_title]" value="<%= self.sub_title || "" %>"/>
+      </div>
   </div>
   <div class="content">
     <textarea name="article[raw]"><%= self.raw || "" %></textarea>
@@ -99,6 +98,7 @@
     </span>
     <span id="actions">
       <input type="submit" class="submit" value="Save"/>
+      <input type="submit" class="cancel" value="Cancel"/>
     </span>
     <div class="authors">
       By: 
@@ -111,4 +111,36 @@
     <hr/>
   </div>
 </form>
+</script>
+
+<script type="text/x-jquery-template" title="articles_view">
+  <div article_id="<%= self.id || 0 %>" class="article">
+    <div class="header">
+      <div class="menu"> 
+        <span class="back">[articles]</span>
+        <span class="edit link" article_id="<%= self.id %>">[edit]</span>
+      </div>
+      <div class="title">
+        <label>Title:</label><%= self.title || "" %>
+      </div>
+      <div class="sub_title">
+        <label>Sub Title:</label><%= self.sub_title || "" %>
+      </div>
+    </div>
+    <div class="content">
+      <%= self.html || "" %>
+    </div>
+    <div class="footer">
+      <span class="tags">
+        Tags: 
+        <%= self.tags %>
+      </span>
+      <div class="authors">
+        <% $.each($.authors || [], function (index, author) { %>
+          <span class="author" author_id="<%= author.id %>"> <%= author.name %>
+            <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>

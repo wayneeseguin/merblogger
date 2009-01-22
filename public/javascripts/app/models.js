@@ -115,7 +115,7 @@ Model = Class.extend({
 
       }
     }
-    true;
+    return true;
   },
 
 /* _reload()
@@ -186,14 +186,14 @@ Model = Class.extend({
  *     Render teh jQuery Template for the view of the model.
  */
   _view: function(options) {
-    return $.templates[self._resource + "_view"](self._attributes);
+    return $.templates[this._resource + "_view"](this._attributes);
   },
 
 /*   _form()
  *     Render teh jQuery Template for the form of the model.
  */
   _form: function(options) {
-    return $.templates[self._resource + "_form"](self._attributes);
+    return $.templates[this._resource + "_form"](this._attributes);
   },
 
 /*   _changed()
