@@ -121,7 +121,6 @@ $.loadModels = function() {
    */
   Blog = Class.extend(Model, {  
     initialize: function(id) {
-    log("blog initialize");
       this._resource = "blogs";
       this.parent(id);
     },

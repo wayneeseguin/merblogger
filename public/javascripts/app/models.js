@@ -16,7 +16,6 @@ Model = Class.extend({
  *     Method used to setup the model. Overwrite this in extended models and be sure to call parent(id);
  */
   initialize: function(id) {
-  log("Model initialize")
     this.id = id;
 
     //Private Members
