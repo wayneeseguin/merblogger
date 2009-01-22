@@ -14,8 +14,8 @@ class Article
   property :rating,          Integer   # how good of a Article the user thinks it is 1..10
   property :published_at,    DateTime  # Allow them to set publish date
   property :markup,          String,   :length => 32
-  property :raw,             Text
-  property :html,            Text
+  property :raw,             Text,     :lazy => false
+  property :html,            Text,     :lazy => false
   property :created_at,      DateTime, :index => true
   property :updated_at,      DateTime, :index => true
   property :deleted_at,      DateTime, :index => true

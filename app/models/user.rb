@@ -13,10 +13,12 @@ class User
   include DataMapper::Resource
 
   property :id,               Serial, :key => true
-  property :email,            String
-  property :crypted_password, String
-  property :salt,             String
-  property :gravatar,         String
+  property :email,            String, :length => 255
+  property :crypted_password, String, :length => 128
+  property :salt,             String, :length => 128
+  property :gravatar,         String, :length => 128
+  property :first_name,       String
+  property :last_name,        String
 
   has n, :user_roles
   has n, :roles, :through => :user_roles

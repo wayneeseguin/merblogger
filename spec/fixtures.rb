@@ -1,3 +1,5 @@
+require "rubygems"
+require "dm-sweatshop"
 require Merb.root / "spec" / "fixtures_helper"
 
 # Examples:
@@ -55,7 +57,7 @@ Blog.fixture{{
 }}
 
 User.fixture{{
-  :login => /[:word:]@[:word:].com/.generate,
+  :email => /[:word:]@[:word:].com/.generate,
   :password => (password = /[:word:]/.generate),
   :password_confirmation => password
 }}
@@ -80,6 +82,10 @@ blogs.each do |blog|
   blog.update_attributes(:owner_id => User.get(rand(5)+3).id)
 end
 
+total_comments = Comment.all.length
+
 Article.all.each do |article|
-  Comment.get(rand(30)+1).article = article
+  comment = Comment.get(rand(total_comments)+1)
+  comment.article_id = article.id if comment
 end
+

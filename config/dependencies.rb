@@ -46,11 +46,4 @@ dependency "merb-auth-slice-password", merb_version
 dependency "merb-param-protection",    merb_version
 dependency "merb-exceptions",          merb_version
 
-dependency "merb_hoptoad_notifier", "=0.9.7", :require_as => "merb_hoptoad_notifier"
 #dependency "merb-cache",            merb_gems_version
-
-dependency "ey_sso_slice",          "=0.2.29"
-
-# Found an issue for now, waiting on reply from Bill.
-# dependency "newrelic_rpm", "=2.8.0", :require => "newrelic_rpm"
-

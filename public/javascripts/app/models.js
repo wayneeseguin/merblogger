@@ -2,66 +2,19 @@
  * Licence: MIT
  * Name:    jQuery Models.
  * About:   REST style models objects for jQuery.
- * 
- * Public API
- * 
+ */
+
+Model = Class.extend({
+
+/* Public API
+ *
  *   Methods should remain availble on each next release. 
  *   Only subject to change with major release revisions and with notice if posisble.
- *
- *   intialize
- *     Method used to setup the model. Overwrite this in extended models and be sure to call parent(id);
- *
- *   parent
- *     Used to call the parent method with the same name. Same concept as 'super' in Ruby.
- *
- *   _resource
- *     Underlying plural model name from the backend. Can be thought of similar to the 'table name'.
- *
- *   _fetch()
- *     Fetch the data from the backend URL, REST based construction. 
- *     Currently only one level of ownership is enabled.
- *
- *   _load()
- *     Load the attributes that do not conflict with public API methods into the object directly.
- *
- *   _reload()
- *     Re-fetch from the backend, remove attributes from the object and then load the attributes.
- *
- *   _update_attributes()
- *     Update a set of attributes, marking them dirty. Save to the backend when done.
- *
- *   _set_attribute()
- *     Update an attribute, mark it as dirty for later saving.
- *
- *   _save()
- *     Save the record to the backend if any attributes are dirty. Update any views / return the record itself.
- *
- *   _[]
- *     Retrieves any attribute that does not conflict with a public API method name.
- *
- *   _view()
- *     Render teh jQuery Template for the view of the model.
- *
- *   _form()
- *     Render teh jQuery Template for the form of the model.
- *
- *   _dirty()
- *     true or false based on whether or not attributes have been updated. 
- *     Must use the _update/_set_attribute(s) methods in order for this to 
- *     be used properly instead of direct assignment.
- *
- *   _to_s()
- *     Used to generate the display for the object. Defaults to the id for the record.
- *     Override in extended model classes as needed.
- *
- * Private API
- *
- *   Subject to change, do not rely on the below named items being available.
- *
- *   _attributes
- *     The attributes hash/object is stored in here.
  */
-Model = Class.extend({
+
+/* intialize
+ *     Method used to setup the model. Overwrite this in extended models and be sure to call parent(id);
+ */
   initialize: function(id) {
     this.id = id;
 
@@ -86,38 +39,14 @@ Model = Class.extend({
 
   },
 
-  _to_s: function() { return this.id; },
+/*
+ *   parent
+ *     Used to call the parent method with the same name. Same concept as 'super' in Ruby.
+ */
 
-  _get_attribute: function(attr) {
-    refresh = arguments[1] 
-    return attributes[attr]
-  },
-  
-  _update_attributes: function(hash) {
-    // Send a PUT to the object's URL with attributes to update, "dirty".
-    for(key in hash) {
-      this._set_attribute(key,hash[key]);
-    }
-    this._save();
-  },
-  
-  _save: function() {
-    // save to backend if dirty.
-  },
-  
-  _delete: function() {
-    // Delete the record in the backend, destroy buffers, views, and forms.
-  },
-  
-  _set_attribute: function(key,value) {
-    // Set the value and store the key in the "dirty list"
-    if (attributes[key] == undefined) {
-      // raise error
-    }
-    attributes[key] = value;
-    return attributes[key];
-  },
-  
+/*   _base_url
+ *     Base URL resource is available at.
+ */
   _url: function() {
     url = '/';
     if(this.owner && this.owner._resource) { 
@@ -142,6 +71,15 @@ Model = Class.extend({
     return url;
   },
 
+/*   _resource
+ *     Underlying plural model name from the backend. Can be thought of similar to the 'table name'.
+ */
+
+/*   _read()
+ *   _fetch()
+ *     Fetch the data from the backend URL, REST based construction. 
+ *     Currently only one level of ownership is enabled.
+ */
   _fetch: function (callback) {
     if (callback) {
       this._after_load = callback;
@@ -154,7 +92,28 @@ Model = Class.extend({
       load(eval("(" + response.responseText + ")"));
     }
   },
-  
+
+/* _load()
+ *   Load the attributes that do not conflict with public API methods into the object directly.
+ *   This buffers the object such that a successive call will not query the backend. 
+ *   To force a query after this call _reload().
+ */
+  _load: function() {
+    // Go through and unset the existing data.
+    data = attributes;
+    for(key in data) {
+      if(key != "initialize" && key != "parent") {
+        this[key] = null;
+      }
+    }
+    // Now load again.
+    this._fetch();
+  },
+
+
+/* _reload()
+ *   Re-fetch from the backend, remove attributes from the object and then load the attributes.
+ */
   _reload: function() {
     // Go through and unset the existing data.
     data = attributes;
@@ -164,22 +123,108 @@ Model = Class.extend({
       }
     }
     // Now load again.
-    this.fetch();
+    this._fetch();
   },
 
-  
+/*   _update_attributes()
+ *     Update a set of attributes, marking them dirty. Save to the backend when done.
+ */
+  _update_attributes: function(hash) {
+    // Send a PUT to the object's URL with attributes to update, "dirty".
+    for(key in hash) {
+      this._set_attribute(key,hash[key]);
+    }
+    this._save();
+  },
+
+/*   _set_attribute()
+ *     Update an attribute, mark it as dirty for later saving.
+ */
+  _set_attribute: function(key,value) {
+    // Set the value and store the key in the "dirty list"
+    if (attributes[key] == undefined) {
+      // raise error
+    }
+    attributes[key] = value;
+    return attributes[key];
+  },
+
+/*
+ * _get_attribute()
+ *   Get the specified attribute from the attributes hash.
+ */
+  _get_attribute: function(attr) {
+    refresh = arguments[1] 
+    return attributes[attr]
+  },
+
+/*   _save()
+ *     Save the record to the backend if any attributes are dirty. Update any views / return the record itself.
+ */
+  _save: function() {
+    // save to backend if dirty.
+  },
+
+/*   _destroy()
+ *     Destroy the record. Method returns true if successful, an error message from the backend otherwise.
+ */
+  _delete: function() {
+    // Delete the record in the backend, destroy buffers, views, and forms.
+  },
+
+/*   _[]
+ *     Retrieves any attribute that does not conflict with a public API method name.
+ */
+  _[]: function(name) {
+
+  },
+
+/*   _view()
+ *     Render teh jQuery Template for the view of the model.
+ */
   _view: function(options) {
     return $.templates[self._resource + "_view"](self._attributes);
   },
   
+
+/*   _form()
+ *     Render teh jQuery Template for the form of the model.
+ */
   _form: function(options) {
     return $.templates[self._resource + "_form"](self._attributes);
   }
+
+/*   _dirty()
+ *     true or false based on whether or not attributes have been updated. 
+ *     Must use the _update/_set_attribute(s) methods in order for this to 
+ *     be used properly instead of direct assignment.
+ */
+  _dirty: function(options) {
+    // TODO: Implement.
+    return true;
+  }
+
+/*   _to_s()
+ *     Used to generate the display for the object. Defaults to the id for the record.
+ *     Override in extended model classes as needed.
+ */
+  _to_s: function() { return this.id; },
+
+/*
+ * Private API
+ *
+ *   Subject to change, do not rely on the below named items being available.
+ */
+
+/* _attributes
+ *   The attributes hash/object is stored in here.
+ */
+
 });
 
 /*
  * Define your application's models below.
- */
+ * Examples:
 Blog = Class.extend(Model, {  
   initialize: function(id) {
     this._resource = "blogs";
@@ -224,3 +269,4 @@ Author = Class.extend(Model, {
 //b._attributes["name"];
 //b._get_attribute("name");
 //b._get_name();
+*/
